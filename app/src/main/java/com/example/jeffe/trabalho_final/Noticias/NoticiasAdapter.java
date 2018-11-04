@@ -1,4 +1,4 @@
-package com.example.jeffe.trabalho_final;
+package com.example.jeffe.trabalho_final.Noticias;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,12 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.example.jeffe.trabalho_final.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

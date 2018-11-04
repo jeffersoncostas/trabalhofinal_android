@@ -1,9 +1,7 @@
-package com.example.jeffe.trabalho_final;
+package com.example.jeffe.trabalho_final.Noticias;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
-import android.net.Uri;
 import android.os.Bundle;
 
 import android.support.annotation.NonNull;
@@ -16,6 +14,8 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.jeffe.trabalho_final.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +66,6 @@ public class NoticiasFragment extends Fragment {
         noticiaList = new ArrayList<>();
         noticiaAdapter = new NoticiasAdapter(getContext(), noticiaList);
 
-        recyclerView  = (RecyclerView) getView().findViewById(R.id.recycler_view);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -87,6 +86,7 @@ public class NoticiasFragment extends Fragment {
         noticiaList.add(n);
 
         noticiaAdapter.notifyDataSetChanged();
+
     }
 
     /**

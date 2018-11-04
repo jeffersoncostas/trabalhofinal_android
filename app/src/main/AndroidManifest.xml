@@ -29,7 +29,7 @@
         <activity android:name=".SignupActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".ProfileActivity" android:label="@string/title_perfil"/>
-        <activity android:name=".NoticiaWebActivity"></activity>
+        <activity android:name=".Noticias.NoticiaWebActivity"></activity>
 
     </application>
 

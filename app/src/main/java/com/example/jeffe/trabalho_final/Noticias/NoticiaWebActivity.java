@@ -1,10 +1,11 @@
-package com.example.jeffe.trabalho_final;
+package com.example.jeffe.trabalho_final.Noticias;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.example.jeffe.trabalho_final.R;
 
 
 public class NoticiaWebActivity extends AppCompatActivity {

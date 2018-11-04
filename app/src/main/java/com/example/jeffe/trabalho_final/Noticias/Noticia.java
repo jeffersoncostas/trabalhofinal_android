@@ -1,4 +1,4 @@
-package com.example.jeffe.trabalho_final;
+package com.example.jeffe.trabalho_final.Noticias;
 
 
 import com.squareup.picasso.Picasso;
