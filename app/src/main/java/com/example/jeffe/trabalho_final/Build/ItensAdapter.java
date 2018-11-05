@@ -2,6 +2,7 @@ package com.example.jeffe.trabalho_final.Build;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,11 +27,11 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
         public ImageView thumbnail, overflow;
-        public CardView itemCard;
+        public ConstraintLayout itemCard;
 
         public MyViewHolder(View view) {
             super(view);
-            itemCard = (CardView) view.findViewById(R.id.item_card_view);
+            itemCard = (ConstraintLayout) view.findViewById(R.id.item_card_view);
             title = (TextView) view.findViewById(R.id.title);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
         }
@@ -60,7 +61,7 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
         holder.title.setText(item.getDeviceName());
         Picasso.get().load(item.getItemIcon_url()).into(holder.thumbnail);
 
-        holder.itemCard.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener listenerCard = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(item.IsUsing){
@@ -69,7 +70,9 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
                 }
                 sendItemToBuild(view, item);
             }
-        });
+        };
+        holder.itemCard.setOnClickListener(listenerCard);
+        holder.thumbnail.setOnClickListener(listenerCard);
 
     }
 
