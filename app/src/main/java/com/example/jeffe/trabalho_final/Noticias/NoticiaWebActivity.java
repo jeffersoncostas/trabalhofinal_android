@@ -2,6 +2,7 @@ package com.example.jeffe.trabalho_final.Noticias;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.webkit.WebView;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -11,17 +12,15 @@ import com.example.jeffe.trabalho_final.R;
 public class NoticiaWebActivity extends AppCompatActivity {
 
     ImageView testeImg;
+    WebView webView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_noticia_web);
 
-        testeImg = (ImageView) findViewById(R.id.imageView);
+        webView = findViewById(R.id.webViewNews);
+        webView.loadUrl("https://www.google.com");
 
-        try {
-            Glide.with(this).load("https://web2.hirez.com/smite-media//wp-content/uploads/2018/11/PatchNotes-PatchBadge-UpdateNotes-FeatImg-283x213-3.jpg").into(testeImg);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
