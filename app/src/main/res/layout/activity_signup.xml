@@ -71,7 +71,11 @@
             android:layout_marginTop="24dp"
             android:gravity="center"
             android:padding="12dp"
-            android:text="Criar Conta" />
+            android:text="Criar Conta"
+            android:background="@drawable/rounded_button"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            style="?android:attr/borderlessButtonStyle"/>
 
         <TextView
             android:id="@+id/link_login"
@@ -80,6 +84,7 @@
             android:layout_marginBottom="24dp"
             android:gravity="center"
             android:text="Já possui conta? Entre!"
+            android:textColor="#F37335"
             android:textSize="16dip" />
 
     </LinearLayout>
