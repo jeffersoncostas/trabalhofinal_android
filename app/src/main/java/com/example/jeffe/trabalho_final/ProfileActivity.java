@@ -3,10 +3,15 @@ package com.example.jeffe.trabalho_final;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
+
+import com.example.jeffe.trabalho_final.Build.BuildFragment;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -47,4 +52,13 @@ public class ProfileActivity extends AppCompatActivity {
             return false;
         }
     };
+
+
+
+    public void openFragment(Fragment fragment){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_layout, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
 }

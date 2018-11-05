@@ -8,9 +8,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.jeffe.trabalho_final.Amigos.AmigosFragment;
 import com.example.jeffe.trabalho_final.Build.BuildFragment;
 import com.example.jeffe.trabalho_final.Noticias.NoticiasFragment;
 
@@ -70,5 +72,17 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.frame_layout, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    public void onClickBuild(View view){
+        Fragment buildFragment = BuildFragment.newInstance();
+        openFragment(buildFragment);
+    }
+
+    public void onClickFriendsList(View view){
+        Fragment buildFragment = AmigosFragment.newInstance();
+        openFragment(buildFragment);
+
+
     }
 }
