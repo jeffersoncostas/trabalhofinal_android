@@ -24,6 +24,18 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
 
     private Context mContextGeneric;
 
+
+
+    public ItensAdapter(Context mContext, List<Item> itemList) {
+        this.mContextGeneric = mContext;
+        this.itemList = itemList;
+    }
+
+    public ItensAdapter(BuildFragment mContext, List<Item> itemList) {
+        this.mContext = mContext;
+        this.itemList = itemList;
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
         public ImageView thumbnail, overflow;
@@ -35,16 +47,6 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
             title = (TextView) view.findViewById(R.id.title);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
         }
-    }
-
-    public ItensAdapter(Context mContext, List<Item> itemList) {
-        this.mContextGeneric = mContext;
-        this.itemList = itemList;
-    }
-
-    public ItensAdapter(BuildFragment mContext, List<Item> itemList) {
-        this.mContext = mContext;
-        this.itemList = itemList;
     }
 
     @Override

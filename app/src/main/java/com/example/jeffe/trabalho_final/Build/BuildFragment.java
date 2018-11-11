@@ -3,6 +3,7 @@ package com.example.jeffe.trabalho_final.Build;
 
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.support.annotation.NonNull;
@@ -16,8 +17,11 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.jeffe.trabalho_final.R;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +32,10 @@ import java.util.List;
  */
 public class BuildFragment extends Fragment {
 
+    public TextView titleCreateBuild;
+
     private RecyclerView buildRecycler;
-    private List<Item> buildList;
+    public List<Item> buildList;
     private ItensAdapter buildItensAdapter;
 
     private RecyclerView recyclerView;
@@ -37,9 +43,14 @@ public class BuildFragment extends Fragment {
     private List<Item> itemList;
     private ItensAdapter itensAdapter;
 
+    private static BuildFragment uniqueInstance = null;
 
+    public boolean isInitializedBuild = false;
+
+    public BuildCompleta buildCompleta;
     public BuildFragment() {
         // Required empty public constructor
+        isInitializedBuild = false;
     }
 
     @Override
@@ -49,9 +60,19 @@ public class BuildFragment extends Fragment {
     }
 
     public static BuildFragment newInstance(){
-        BuildFragment fragment = new BuildFragment();
-        return fragment;
+
+        if(uniqueInstance == null){
+            uniqueInstance = new BuildFragment();
+        }
+
+        return uniqueInstance;
     }
+
+    public void initializeWithBuild(BuildCompleta bCompleta){
+        buildCompleta = bCompleta;
+        isInitializedBuild = true;
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,6 +85,7 @@ public class BuildFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        titleCreateBuild = getView().findViewById(R.id.titleCreateBuild);
 
         recyclerView  = (RecyclerView) getView().findViewById(R.id.recycler_view);
 
@@ -84,11 +106,21 @@ public class BuildFragment extends Fragment {
 
         initializeBuildList();
 
+        if(isInitializedBuild){
+            titleCreateBuild.setText(buildCompleta.getBuildName());
+        }
+
     }
 
     public void initializeBuildList(){
-        buildRecycler  = (RecyclerView) getView().findViewById(R.id.suaBuildRecycler);
+
         buildList = new ArrayList<>();
+
+        if(isInitializedBuild){
+            buildList = buildCompleta.getListaItemsBuild();
+        }
+
+        buildRecycler  = (RecyclerView) getView().findViewById(R.id.suaBuildRecycler);
         buildItensAdapter= new ItensAdapter(this, buildList);
 
 
@@ -98,6 +130,8 @@ public class BuildFragment extends Fragment {
         buildRecycler.addItemDecoration(new BuildFragment.GridSpacingItemDecoration(3, dpToPx(1), true));
         buildRecycler.setItemAnimator(new DefaultItemAnimator());
         buildRecycler.setAdapter(buildItensAdapter);
+
+        buildItensAdapter.notifyDataSetChanged();
     }
 
 
@@ -129,6 +163,7 @@ public class BuildFragment extends Fragment {
         buildList.remove(item);
         buildItensAdapter.notifyDataSetChanged();
     }
+
 
     /**
      * Converting dp to pixel
@@ -175,4 +210,6 @@ public class BuildFragment extends Fragment {
             }
         }
     }
+
+
 }

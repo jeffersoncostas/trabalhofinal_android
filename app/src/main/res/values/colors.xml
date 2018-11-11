@@ -14,11 +14,11 @@
     <color name="headings">#d35d23</color>
     <color name="solidCircle">#AAFFFFFF</color>
     <color name="circleBorder">#50FFFFFF</color>
-    <color name="gradEnd">#F37335</color>
+    <color name="gradEnd">#f37335</color>
     <color name="gradStart">#FDC830</color>
     <color name="followersBg">#FDC830</color>
     <color name="followingBg">#F37335</color>
-    <color name="grey">#E5E5E5</color>
+    <color name="grey">#e5e5e5</color>
 
     <color name="white">#FFFFFF</color>
 
