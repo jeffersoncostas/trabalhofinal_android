@@ -8,18 +8,22 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:fontFamily">@font/hkgrotesk</item>
     </style>
 
     <style name="AppTheme_Dark_Dialog" parent="android:Theme.Holo.Dialog">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
+
     </style>
 
-    <style name="generalnotitle" parent="AppTheme">
-        <item name="android:windowNoTitle">true</item>
+    <style name="TextLabelStyle" parent="ThemeOverlay.AppCompat.Light"> <!-- estilo do input -->
+        <!-- Hint color and label color in FALSE state -->
+        <item name="android:textColorHint">#bbbbbb</item>
+        <item name="android:textSize">20sp</item>
+        <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
+        <item name="colorAccent">@color/gradEnd</item>
+        <item name="colorControlNormal">@color/gradEnd</item>
+        <item name="colorControlActivated">@color/gradEnd</item>
     </style>
+
 
 </resources>

@@ -4,54 +4,100 @@
     android:id="@+id/friend_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="20dp">
+    android:layout_marginBottom="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200px"
-        android:orientation="horizontal">
+        android:layout_height="125dp"
+        android:orientation="vertical">
 
         <android.support.v7.widget.CardView
 
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="0dp">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+
+                <ImageView
+                    android:id="@+id/deleteIcon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="44dp"
+                    android:layout_marginTop="16dp"
+                    android:adjustViewBounds="false"
+                    android:clickable="true"
+                    android:onClick="onDelClick"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.79"
+                    app:srcCompat="@drawable/trash" />
+
+            </android.support.constraint.ConstraintLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:padding="10dp">
+                android:padding="16dp">
 
                 <ImageView
                     android:id="@+id/friend_image"
-                    android:layout_width="103dp"
+                    android:layout_width="90dp"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_user" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:orientation="vertical"
                     android:paddingLeft="20dp">
 
                     <TextView
                         android:id="@+id/friends_name"
-                        android:layout_width="match_parent"
+                        android:layout_width="356dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:gravity="center"
                         android:text="TextView"
-                        android:textSize="24sp" />
+                        android:textAlignment="textStart"
+                        android:textColor="@color/gradEnd"
+                        android:textFontWeight="600"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/friends_description"
-                        android:layout_width="match_parent"
+                        android:layout_width="355dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="TextView" />
+                        android:gravity="center"
+                        android:text="TextView"
+                        android:textAlignment="textStart"
+                        android:textColor="#bbbbbb"
+                        app:layout_constraintTop_toTopOf="@+id/build_name_card" />
+
                 </LinearLayout>
 
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            android:backgroundTint="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

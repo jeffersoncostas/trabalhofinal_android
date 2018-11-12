@@ -2,40 +2,57 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/grey">
+    android:background="@drawable/build_popup">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="0dp"
         android:orientation="vertical"
-        android:padding="15dp">
+        android:padding="22dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:layout_marginBottom="30dp"
+            android:layout_marginEnd="30dp"
             android:layout_marginStart="30dp"
             android:layout_marginTop="30dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="30dp"
-            android:text="Qual o nome da sua build?"
+            android:text="Nomeie sua build"
             android:textAlignment="center"
             android:textSize="22sp" />
 
-        <EditText
-            android:id="@+id/buildNameInput"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName" />
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_input"
+            android:theme="@style/TextLabelStyle"
+            android:paddingBottom="25dp">
+
+            <EditText
+                android:id="@+id/buildNameInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nome"
+                android:inputType="textPersonName"
+                android:textColor="@color/gradEnd"/>
+        </android.support.design.widget.TextInputLayout>
 
         <Button
             android:id="@+id/bttn_salvarbuild"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Salvar" />
+            android:background="@drawable/rounded_button"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="Finalizar"
+            android:textColor="#fff"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

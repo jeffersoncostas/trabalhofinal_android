@@ -24,8 +24,6 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
 
     private Context mContextGeneric;
 
-
-
     public ItensAdapter(Context mContext, List<Item> itemList) {
         this.mContextGeneric = mContext;
         this.itemList = itemList;

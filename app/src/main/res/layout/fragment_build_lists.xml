@@ -12,11 +12,23 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView2"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Minhas builds" />
+            android:background="@drawable/grad"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Builds de Mateus Henrico"
+                android:textAlignment="center"
+                android:textColor="#f6f6f6"
+                android:textFontWeight="600"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
 
         <include
             android:id="@+id/include"
