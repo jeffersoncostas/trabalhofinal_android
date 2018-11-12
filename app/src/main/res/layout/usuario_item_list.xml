@@ -60,7 +60,7 @@
 
                     <TextView
                         android:id="@+id/friends_name"
-                        android:layout_width="356dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="TextView"
@@ -72,7 +72,7 @@
 
                     <TextView
                         android:id="@+id/friends_description"
-                        android:layout_width="355dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="TextView"

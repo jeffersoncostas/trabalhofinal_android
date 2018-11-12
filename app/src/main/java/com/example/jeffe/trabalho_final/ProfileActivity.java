@@ -46,7 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_notifications:
 
-                    startActivity(new Intent(mContext,ProfileActivity.class));
+                    startActivity(new Intent(mContext, ProfileActivity.class));
                     return true;
             }
             return false;

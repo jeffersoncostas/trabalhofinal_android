@@ -17,12 +17,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.jeffe.trabalho_final.Build.BuildCompleta;
+import com.example.jeffe.trabalho_final.Build.BuildFragment;
 import com.example.jeffe.trabalho_final.Build.Item;
+import com.example.jeffe.trabalho_final.PerfilFragment;
 import com.example.jeffe.trabalho_final.R;
 import com.example.jeffe.trabalho_final.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.jeffe.trabalho_final.PerfilFragment.mainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,6 +38,7 @@ public class AmigosFragment extends Fragment {
 
     private List<Usuario> usuarioList;
     private AmigosAdapter amigosAdapter;
+    private Usuario usuario;
 
     public  AmigosFragment() {
         // Required empty public constructor
@@ -59,7 +65,6 @@ public class AmigosFragment extends Fragment {
         usuarioList = new ArrayList<>();
         amigosAdapter = new AmigosAdapter(this,usuarioList);
 
-
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
 
         recyclerView.setLayoutManager(mLayoutManager);
@@ -72,8 +77,6 @@ public class AmigosFragment extends Fragment {
 
 
     public void getUsuarios(){
-
-
         Usuario u = new Usuario("123","Jamba","Sou uma boa pessoa");
         usuarioList.add(u);
 
@@ -128,5 +131,11 @@ public class AmigosFragment extends Fragment {
                 }
             }
         }
+    }
+
+    public void goToFriend(Usuario usuario){
+//        Fragment perfilFragment = PerfilFragment.newInstance();
+//        ((PerfilFragment) perfilFragment).initializeWithFriend(usuario);
+//        mainActivity.openFragment(perfilFragment);
     }
 }

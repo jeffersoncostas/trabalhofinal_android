@@ -48,6 +48,7 @@ public class BuildFragment extends Fragment {
     public boolean isInitializedBuild = false;
 
     public BuildCompleta buildCompleta;
+
     public BuildFragment() {
         // Required empty public constructor
         isInitializedBuild = false;
@@ -60,7 +61,6 @@ public class BuildFragment extends Fragment {
     }
 
     public static BuildFragment newInstance(){
-
         if(uniqueInstance == null){
             uniqueInstance = new BuildFragment();
         }
@@ -89,10 +89,8 @@ public class BuildFragment extends Fragment {
 
         recyclerView  = (RecyclerView) getView().findViewById(R.id.recycler_view);
 
-
         itemList = new ArrayList<>();
         itensAdapter = new ItensAdapter(this, itemList);
-
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 3);
 
@@ -102,7 +100,6 @@ public class BuildFragment extends Fragment {
         recyclerView.setAdapter(itensAdapter);
 
         getItems();
-
 
         initializeBuildList();
 

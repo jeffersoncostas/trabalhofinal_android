@@ -86,13 +86,10 @@ public class BuildListsFragment extends Fragment {
     }
 
 
-    public void goToSpecificBuild(BuildCompleta builCompleta){
+    public void goToSpecificBuild(BuildCompleta buildCompleta){
         Fragment buildFragment = BuildFragment.newInstance();
-        ((BuildFragment) buildFragment).initializeWithBuild(builCompleta);
-
+        ((BuildFragment) buildFragment).initializeWithBuild(buildCompleta);
         mainActivity.openFragment(buildFragment);
     }
-
-
 
 }

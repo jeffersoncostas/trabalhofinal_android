@@ -1,15 +1,18 @@
 package com.example.jeffe.trabalho_final.Amigos;
 
 import android.content.Context;
+import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.jeffe.trabalho_final.Build.MyBuilds;
 import com.example.jeffe.trabalho_final.R;
 import com.example.jeffe.trabalho_final.Usuario;
 
@@ -24,10 +27,13 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.MyViewHold
         usuarioList = list;
         mContext = context;
     }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView name,description;
         public ImageView thumbnail, overflow;
         public ConstraintLayout itemCard;
+        public ImageView delIcon;
+
 
         public MyViewHolder(View view) {
             super(view);
@@ -35,6 +41,7 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.MyViewHold
             name = (TextView) view.findViewById(R.id.friends_name);
             description = (TextView) view.findViewById(R.id.friends_description);
             thumbnail = (ImageView) view.findViewById(R.id.friend_image);
+            delIcon = (ImageView) view.findViewById(R.id.deleteIcon);
         }
     }
 
@@ -45,21 +52,38 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.MyViewHold
         return new MyViewHolder(itemView);
     }
 
+    public void update() {
+        this.notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         final Usuario usuario = usuarioList.get(position);
-        holder.description.setText( usuario.getUserDescription());
+        holder.description.setText(usuario.getUserDescription());
         holder.name.setText(usuario.getUserName());
 
         View.OnClickListener listenerCard = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
+                mContext.goToFriend(usuario);
             }
         };
-        holder.itemCard.setOnClickListener(listenerCard);
+
+        View.OnClickListener deleteItem = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+          //      MyBuilds.getInstance().deleteBuild(item);
+          //      update();
+
+                Log.d("deletou", "deletada");
+                update();
+            }
+        };
+
+      //  holder.itemCard.setOnClickListener(listenerCard);
+        holder.name.setOnClickListener(listenerCard);
         holder.thumbnail.setOnClickListener(listenerCard);
+        holder.delIcon.setOnClickListener(deleteItem);
     }
 
     @Override
