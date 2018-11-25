@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "756039679278",
+    "firebase_url": "https://smitefy.firebaseio.com",
+    "project_id": "smitefy",
+    "storage_bucket": "smitefy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:756039679278:android:38e35cf4e4d8a132",
+        "android_client_info": {
+          "package_name": "com.example.jeffe.trabalho_final"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "756039679278-u5dh45a1li3qcqmuqr9bce2ntomu91om.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.jeffe.trabalho_final",
+            "certificate_hash": "4b56a872de731f10fa7470a97fc507fabb5a04b7"
+          }
+        },
+        {
+          "client_id": "756039679278-si044qu7gv05o3023ti3pbho9ckjmm8d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZ7pHmyxhxMT8sU-Gv7rc4XlSp6h0U0Yk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "756039679278-si044qu7gv05o3023ti3pbho9ckjmm8d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

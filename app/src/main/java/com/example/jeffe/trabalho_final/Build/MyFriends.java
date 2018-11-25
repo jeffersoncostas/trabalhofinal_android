@@ -25,12 +25,12 @@ public class MyFriends {
         listaDeAmigos = new ArrayList<>();
     }
 
-    public void setAmigo(String userId, List<Item> userBuild, List<String> friendsList, String userName, String userDescription){
+   /* public void setAmigo(String userId, List<Item> userBuild, List<String> friendsList, String userName, String userDescription, String userLocation){
         Log.d("enviandoNovoAmigo","xds");
-        Usuario newUser = new Usuario(userId, userBuild, friendsList, userName, userDescription);
+        Usuario newUser = new Usuario(userId, userBuild, friendsList, userName, userDescription, userLocation);
         listaDeAmigos.add(newUser);
 
-    }
+    } */
 
     public List<Usuario> getUsers(){
         Log.d("getfriends","Mybuilds");

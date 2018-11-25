@@ -35,6 +35,7 @@ import com.example.jeffe.trabalho_final.Build.BuildListsFragment;
 import com.example.jeffe.trabalho_final.Build.Item;
 import com.example.jeffe.trabalho_final.Build.MyBuilds;
 import com.example.jeffe.trabalho_final.Noticias.NoticiasFragment;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView perfilNumeroBuilds;
 
     private MainActivity mContext;
+    private FirebaseAuth auth;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -83,7 +85,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mContext = this;
 
-
+        auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+            Log.d("logado", "user: " + auth.getUid());
+        }
 
        initializeBottomNavigation();
 

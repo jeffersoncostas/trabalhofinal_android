@@ -77,10 +77,10 @@ public class AmigosFragment extends Fragment {
 
 
     public void getUsuarios(){
-        Usuario u = new Usuario("123","Jamba","Sou uma boa pessoa");
+        Usuario u = new Usuario("123","Jamba","Sou uma boa pessoa", "arroz");
         usuarioList.add(u);
 
-        u = new Usuario("2","Cranga","Eu gostaria de fazer umas coisas");
+        u = new Usuario("2","Cranga","Eu gostaria de fazer umas coisas", "frango");
         usuarioList.add(u);
 
 

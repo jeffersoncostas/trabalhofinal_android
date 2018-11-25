@@ -9,24 +9,20 @@ public class Usuario {
     private List<Item> userBuild;
     private List<String> friendsList;
     private String userName;
+    private String userEmail;
     private String userDescription;
     private String userPicture;
+    private String userLocalization;
 
-    public Usuario(String userId,String userName,String userDescription){
+    public Usuario(String userId, String userName, String userEmail, String userLocalization) {
         this.userId = userId;
+        this.userBuild = null;
+        this.friendsList = null;
         this.userName = userName;
-        this.userDescription = userDescription;
-
+        this.userEmail = userEmail;
+        this.userDescription =  null;
+        this.userLocalization = userLocalization;
     }
-    public Usuario(String userId, List<Item> userBuild, List<String> friendsList, String userName, String userDescription) {
-        this.userId = userId;
-        this.userBuild = userBuild;
-        this.friendsList = friendsList;
-        this.userName = userName;
-        this.userDescription = userDescription;
-    }
-
-
 
     public String getUserId() {
         return userId;
@@ -34,6 +30,14 @@ public class Usuario {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public List<Item> getUserBuild() {
@@ -68,6 +72,12 @@ public class Usuario {
         this.userDescription = userDescription;
     }
 
+    public String getUserLocalization() {
+        return userLocalization;
+    }
 
+    public void setUserLocalization(String userLocalization) {
+        this.userLocalization = userLocalization;
+    }
 
 }
