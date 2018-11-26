@@ -219,7 +219,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/btnLogout"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

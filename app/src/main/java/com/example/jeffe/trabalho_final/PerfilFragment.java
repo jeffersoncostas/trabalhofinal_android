@@ -1,7 +1,9 @@
 package com.example.jeffe.trabalho_final;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.jeffe.trabalho_final.Build.BuildCompleta;
@@ -32,6 +35,9 @@ public class PerfilFragment extends Fragment {
     public TextView userDesc;
     public TextView userFriendList;
     public TextView userEmail;
+    private FirebaseAuth auth;
+    public Context mContext;
+
 
     FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
     DatabaseReference databaseUsers = FirebaseDatabase.getInstance().getReference("Users").child(fUser.getUid());
@@ -137,5 +143,34 @@ public class PerfilFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        auth = FirebaseAuth.getInstance();
+
+        Button logoutBtn = (Button) getView().findViewById(R.id.btnLogout);
+
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+
+                FirebaseAuth firebaseAuth;
+                FirebaseAuth.AuthStateListener authStateListener = new FirebaseAuth.AuthStateListener() {
+                    @Override
+                    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                        if (firebaseAuth.getCurrentUser() == null){
+                            startActivity(new Intent(mContext, LoginActivity.class)); // TA TRAVANDO O APP
+                        }
+                        else {
+                        }
+                    }
+                };
+
+                firebaseAuth = FirebaseAuth.getInstance();
+                firebaseAuth.addAuthStateListener(authStateListener);
+
+                firebaseAuth.signOut();
+            }
+        });
+
         }
 }
