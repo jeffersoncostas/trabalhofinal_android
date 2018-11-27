@@ -27,7 +27,6 @@
 
 
         </activity>
-        <activity android:name=".ProfileActivity" android:label="@string/title_perfil"/>
         <activity android:name=".Noticias.NoticiaWebActivity"></activity>
 
     </application>

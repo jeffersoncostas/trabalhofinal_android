@@ -4,14 +4,24 @@ import android.content.Context;
 import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.example.jeffe.trabalho_final.Build.BuildFragment;
+import com.example.jeffe.trabalho_final.Build.BuildListsFragment;
+import com.example.jeffe.trabalho_final.Build.Item;
 import com.example.jeffe.trabalho_final.Build.MyBuilds;
 import com.example.jeffe.trabalho_final.R;
 import com.example.jeffe.trabalho_final.Usuario;
@@ -52,6 +62,8 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.MyViewHold
         return new MyViewHolder(itemView);
     }
 
+
+
     public void update() {
         this.notifyDataSetChanged();
     }
@@ -90,5 +102,6 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.MyViewHold
     public int getItemCount() {
         return usuarioList.size();
     }
+
 
 }

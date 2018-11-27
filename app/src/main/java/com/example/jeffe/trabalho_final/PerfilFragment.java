@@ -38,7 +38,6 @@ public class PerfilFragment extends Fragment {
     private FirebaseAuth auth;
     public Context mContext;
 
-
     FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
     DatabaseReference databaseUsers = FirebaseDatabase.getInstance().getReference("Users").child(fUser.getUid());
 
@@ -92,7 +91,7 @@ public class PerfilFragment extends Fragment {
                 String userLocValue = dataSnapshot.child("userLocalization").getValue(String.class);
                 String userDescriptionValue = dataSnapshot.child("userDescription").getValue(String.class);
                 String userPictureValue = dataSnapshot.child("userPicture").getValue(String.class);
-                String userFriendListValue = dataSnapshot.child("userFriendList").getValue(String.class);
+                Long userFriendListValue = dataSnapshot.child("userFriendList").getChildrenCount();
                 String userBuildNValue = dataSnapshot.child("userBuilds").getValue(String.class);
                 String userEmailValue = dataSnapshot.child("userEmail").getValue(String.class);
 
@@ -123,12 +122,12 @@ public class PerfilFragment extends Fragment {
 
                 numeroBuilds.setText(userBuildNValue);
 
-                if (userFriendListValue == null) {
-                    userFriendListValue = "0";
+                if (userFriendListValue == 0) {
+                    userFriendListValue = Long.valueOf(0);
                 }
 
                 userFriendList = view.findViewById(R.id.tv_friends);
-                userFriendList.setText(userFriendListValue);
+                userFriendList.setText(userFriendListValue.toString());
                 //   numeroBuilds.setText(String.valueOf( MyBuilds.getInstance().getBuildsSize()));
             }
 
@@ -151,7 +150,6 @@ public class PerfilFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-
 
                 FirebaseAuth firebaseAuth;
                 FirebaseAuth.AuthStateListener authStateListener = new FirebaseAuth.AuthStateListener() {

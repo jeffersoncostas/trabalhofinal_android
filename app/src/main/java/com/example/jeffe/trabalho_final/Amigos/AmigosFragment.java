@@ -1,6 +1,7 @@
 package com.example.jeffe.trabalho_final.Amigos;
 
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -12,26 +13,33 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.jeffe.trabalho_final.Build.BuildCompleta;
 import com.example.jeffe.trabalho_final.Build.BuildFragment;
 import com.example.jeffe.trabalho_final.Build.Item;
+import com.example.jeffe.trabalho_final.MainActivity;
 import com.example.jeffe.trabalho_final.PerfilFragment;
 import com.example.jeffe.trabalho_final.R;
 import com.example.jeffe.trabalho_final.Usuario;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.jeffe.trabalho_final.PerfilFragment.mainActivity;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class AmigosFragment extends Fragment {
 
     private RecyclerView recyclerView;
@@ -39,12 +47,21 @@ public class AmigosFragment extends Fragment {
     private List<Usuario> usuarioList;
     private AmigosAdapter amigosAdapter;
     private Usuario usuario;
+    public Context mContext;
+
+
+
+    FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+    DatabaseReference databaseUsers = FirebaseDatabase.getInstance().getReference("Users").child(fUser.getUid());
+    DatabaseReference databaseFriends = FirebaseDatabase.getInstance().getReference("Users");
 
     public  AmigosFragment() {
         // Required empty public constructor
+
     }
 
     public static AmigosFragment newInstance() {
+
         AmigosFragment fragment = new AmigosFragment();
         return fragment;
     }
@@ -53,7 +70,10 @@ public class AmigosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_amigos, container, false);
+
+        final View view = inflater.inflate(R.layout.fragment_amigos, container, false);
+
+        return view;
     }
 
 
@@ -73,31 +93,61 @@ public class AmigosFragment extends Fragment {
         recyclerView.setAdapter(amigosAdapter);
 
         getUsuarios();
+
     }
 
 
     public void getUsuarios(){
-        Usuario u = new Usuario("123","Jamba","Sou uma boa pessoa", "arroz");
+        databaseUsers.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot snapshot : dataSnapshot.child("userFriendList").getChildren()) {
+
+                        DatabaseReference friend = databaseFriends.child(snapshot.getValue().toString());
+
+                        friend.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                 Usuario u = new Usuario(
+                                         dataSnapshot.child("userId").getValue().toString(),
+                                         dataSnapshot.child("userName").getValue().toString(),
+                                         dataSnapshot.child("userEmail").getValue().toString(),
+                                         dataSnapshot.child("userLocalization").getValue().toString()
+                                 );
+
+                                usuarioList.add(u);
+                                amigosAdapter.notifyDataSetChanged();
+                            }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                            }
+                        });
+
+                    }
+                }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+
+        });
+
+   /*     Log.d("lista:", "aaaaaaaaa: " + usuarioList);
+
+        amigosAdapter.notifyDataSetChanged(); */
+
+   /*     u = new Usuario("2","Cranga","Eu gostaria de fazer umas coisas", "frango");
         usuarioList.add(u);
-
-        u = new Usuario("2","Cranga","Eu gostaria de fazer umas coisas", "frango");
-        usuarioList.add(u);
-
-
-        amigosAdapter.notifyDataSetChanged();
-
+        amigosAdapter.notifyDataSetChanged(); */
     }
-    /**
-     * Converting dp to pixel
-     */
+
+
     private int dpToPx(int dp) {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 
-    /**
-     * RecyclerView item decoration - give equal margin around grid item
-     */
     public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
         private int spanCount;

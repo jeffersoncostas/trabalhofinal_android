@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
-                            onLoginFailed();
+                            onLoginFailed(progressDialog);
                         } else {
                             onLoginSuccess();
                         }
@@ -137,9 +137,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void onLoginFailed() {
+    public void onLoginFailed(ProgressDialog progressDialog) {
         Toast.makeText(getBaseContext(), "Login falhou :(", Toast.LENGTH_LONG).show();
-
+        progressDialog.dismiss();
         _loginButton.setEnabled(true);
     }
 

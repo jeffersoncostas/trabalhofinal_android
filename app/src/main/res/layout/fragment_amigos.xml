@@ -17,6 +17,7 @@
             android:layout_marginBottom="88dp"
             android:layout_marginEnd="28dp"
             android:clickable="true"
+            android:onClick="addFriend"
             android:src="@drawable/floating_button_friend"
             app:backgroundTint="@color/gradEnd"
             app:layout_constraintBottom_toBottomOf="parent"

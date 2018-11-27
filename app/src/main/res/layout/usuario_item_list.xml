@@ -30,7 +30,7 @@
                     android:layout_marginTop="16dp"
                     android:adjustViewBounds="false"
                     android:clickable="true"
-                    android:onClick="onDelClick"
+                    android:onClick="deleteFriend"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
