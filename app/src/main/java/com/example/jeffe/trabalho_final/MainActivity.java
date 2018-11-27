@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
 
     @InjectView(R.id.deleteIcon) ImageView delIcon;
 
-
     DatabaseReference databaseUsers = FirebaseDatabase.getInstance().getReference("Users");
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener

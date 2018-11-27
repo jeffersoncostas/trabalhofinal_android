@@ -2,11 +2,11 @@ package com.example.jeffe.trabalho_final.Build;
 
 public class Item {
 
-    public String ItemId;
-    public String DeviceName;
-    public String itemIcon_url;
-    public String ShortDesc;
-    public int Price;
+    private String ItemId;
+    private String DeviceName;
+    private String itemIcon_url;
+    private String ShortDesc;
+    private int Price;
     public boolean IsUsing;
 
     public Item(String itemId, String deviceName, String itemIcon_url, String shortDesc, int price,boolean isUsing) {
