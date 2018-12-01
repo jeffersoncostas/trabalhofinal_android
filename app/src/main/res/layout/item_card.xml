@@ -27,7 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start|bottom"
             android:background="@drawable/transparent_back"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="20dp">
             <!--Title Text-->
             <FrameLayout
                 android:layout_width="match_parent"

@@ -2,10 +2,12 @@ package com.example.jeffe.trabalho_final.Noticias;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,11 +24,11 @@ public class NoticiasAdapter extends RecyclerView.Adapter<NoticiasAdapter.MyView
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, count;
         public ImageView thumbnail, overflow;
-        public RelativeLayout noticiaCard;
+        public ConstraintLayout noticiaCard;
 
         public MyViewHolder(View view) {
             super(view);
-            noticiaCard = (RelativeLayout) view.findViewById(R.id.noticiaCard);
+            noticiaCard = (ConstraintLayout) view.findViewById(R.id.noticiaCard);
             title = (TextView) view.findViewById(R.id.title);
             count = (TextView) view.findViewById(R.id.count);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);

@@ -62,9 +62,9 @@ public class NoticiasFragment extends Fragment {
         noticiaAdapter = new NoticiasAdapter(getContext(), noticiaList);
 
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new NoticiasFragment.GridSpacingItemDecoration(2, dpToPx(10), true));
+        recyclerView.addItemDecoration(new NoticiasFragment.GridSpacingItemDecoration(1, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(noticiaAdapter);
 
@@ -75,6 +75,12 @@ public class NoticiasFragment extends Fragment {
     public void getNoticias(){
 
         Noticia n = new Noticia('1',"https://web2.hirez.com/smite-media//wp-content/uploads/2018/11/PatchNotes-PatchBadge-UpdateNotes-FeatImg-283x213-3.jpg","Celestial Domination | 5.21 Update Notes","celestial-domination-5-21-update-notes","TitanIsiah");
+        noticiaList.add(n);
+
+        n = new Noticia('1',"https://web2.hirez.com/smite-media//wp-content/uploads/2018/11/PatchNotes-PatchBadge-UpdateNotes-FeatImg-283x213-3.jpg","Teste","celestial-domination-5-21-update-notes","TitanIsiah");
+        noticiaList.add(n);
+
+        n = new Noticia('1',"https://web2.hirez.com/smite-media//wp-content/uploads/2018/11/PatchNotes-PatchBadge-UpdateNotes-FeatImg-283x213-3.jpg","Teste","celestial-domination-5-21-update-notes","TitanIsiah");
         noticiaList.add(n);
 
         n = new Noticia('1',"https://web2.hirez.com/smite-media//wp-content/uploads/2018/11/PatchNotes-PatchBadge-UpdateNotes-FeatImg-283x213-3.jpg","Teste","celestial-domination-5-21-update-notes","TitanIsiah");
