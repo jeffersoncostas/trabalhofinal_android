@@ -134,13 +134,13 @@ public class BuildFragment extends Fragment {
 
 
     public void getItems(){
-        Item n = new Item("1","Qin","https://web2.hirez.com/smite/item-icons/qins-sais.jpg","Bonus damage based on target's maximum Health",1450,false);
+        Item n = new Item("1","Qin","https://web2.hirez.com/smite/item-icons/qins-sais.jpg","Bonus damage based on target's maximum Health","1,450",false);
         itemList.add(n);
 
-        n = new Item("2","Light Blade","https://web2.hirez.com/smite/item-icons/light-blade.jpg","Physical Power and Attack Speed.",1450,false);
+        n = new Item("2","Light Blade","https://web2.hirez.com/smite/item-icons/light-blade.jpg","Physical Power and Attack Speed.","1,450",false);
         itemList.add(n);
 
-        n = new Item("3","The Executioner","https://web2.hirez.com/smite/item-icons/the-executioner.jpg","Basic Attacks reduce target's Physical Protection",1450,false);
+        n = new Item("3","The Executioner","https://web2.hirez.com/smite/item-icons/the-executioner.jpg","Basic Attacks reduce target's Physical Protection","1,450",false);
         itemList.add(n);
 
         itensAdapter.notifyDataSetChanged();

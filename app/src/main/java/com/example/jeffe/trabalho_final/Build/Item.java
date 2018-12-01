@@ -6,10 +6,10 @@ public class Item {
     private String DeviceName;
     private String itemIcon_url;
     private String ShortDesc;
-    private int Price;
+    private String Price;
     public boolean IsUsing;
 
-    public Item(String itemId, String deviceName, String itemIcon_url, String shortDesc, int price,boolean isUsing) {
+    public Item(String itemId, String deviceName, String itemIcon_url, String shortDesc, String price,boolean isUsing) {
         ItemId = itemId;
         DeviceName = deviceName;
         this.itemIcon_url = itemIcon_url;
@@ -51,11 +51,11 @@ public class Item {
         ShortDesc = shortDesc;
     }
 
-    public int getPrice() {
+    public String getPrice() {
         return Price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(String price) {
         Price = price;
     }
 

@@ -1,54 +1,70 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_card_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:background="@android:color/white"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="0dp">
 
-        <android.support.v7.widget.CardView
+        <!--Card Image-->
+        <ImageView
+            android:id="@+id/thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:scaleType="fitXY" />
 
-            android:layout_width="113dp"
-            android:layout_height="113dp"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/card_margin"
-            android:elevation="1dp"
-            card_view:cardCornerRadius="@dimen/card_album_radius">
-
-            <RelativeLayout
-                android:id="@+id/itemCard"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|bottom"
+            android:background="@drawable/transparent_back"
+            android:orientation="vertical">
+            <!--Title Text-->
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/thumbnail"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:scaleType="fitXY" />
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/thumbnail"
-                    android:paddingLeft="@dimen/album_title_padding"
-                    android:paddingTop="@dimen/album_title_padding"
-                    android:paddingRight="@dimen/album_title_padding"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:text="test"
-                    android:textAlignment="center"
-                    android:textColor="@color/album_title"
-                    android:textSize="@dimen/album_title" />
+                    android:textAlignment="textStart"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </FrameLayout>
+            <!--Description Text-->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
-
-
-    </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="Description"
+                    android:textAlignment="textStart"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+            </FrameLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</FrameLayout>

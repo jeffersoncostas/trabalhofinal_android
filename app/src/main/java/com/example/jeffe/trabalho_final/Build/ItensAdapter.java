@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,13 +37,15 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
+        public TextView price;
         public ImageView thumbnail, overflow;
-        public ConstraintLayout itemCard;
+        public FrameLayout itemCard;
 
         public MyViewHolder(View view) {
             super(view);
-            itemCard = (ConstraintLayout) view.findViewById(R.id.item_card_view);
+            itemCard = (FrameLayout) view.findViewById(R.id.item_card_view);
             title = (TextView) view.findViewById(R.id.title);
+            price = (TextView) view.findViewById(R.id.price);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
         }
     }
@@ -59,6 +62,7 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         final Item item = itemList.get(position);
         holder.title.setText(item.getDeviceName());
+        holder.price.setText(item.getPrice());
         Picasso.get().load(item.getItemIcon_url()).into(holder.thumbnail);
 
         View.OnClickListener listenerCard = new View.OnClickListener() {
