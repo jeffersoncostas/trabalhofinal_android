@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.support.annotation.NonNull;
 
 import com.example.jeffe.trabalho_final.LoginActivity;
+import com.example.jeffe.trabalho_final.SignupActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -41,6 +42,7 @@ public class FirebaseRequests {
     }
 
 
+
     public void Login(String email, String password, final LoginActivity loginActivity){
 
         final ProgressDialog progressDialog = new ProgressDialog(loginActivity);
@@ -56,7 +58,7 @@ public class FirebaseRequests {
                 else{
 
                     loginActivity.onLoginFailed(progressDialog);
-                    
+
                 }
 
             }
@@ -64,8 +66,22 @@ public class FirebaseRequests {
 
     }
 
-    public void createAccount(){
+    public void CreateAccount(String email, String password, String location, final SignupActivity signupActivity){
 
+        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(signupActivity, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+
+
+                if(task.isSuccessful()){
+                    signupActivity.onSignupSuccess();
+                }
+                else{
+                    signupActivity.onSignupFailed();
+                }
+
+            }
+        });
     }
 
 }
