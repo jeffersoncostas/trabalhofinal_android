@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +29,10 @@ public class NoticiasAdapter extends RecyclerView.Adapter<NoticiasAdapter.MyView
 
         public MyViewHolder(View view) {
             super(view);
-            noticiaCard = (ConstraintLayout) view.findViewById(R.id.noticiaCard);
-            title = (TextView) view.findViewById(R.id.title);
-            count = (TextView) view.findViewById(R.id.count);
-            thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
+            noticiaCard = view.findViewById(R.id.noticiaCard);
+            title =  view.findViewById(R.id.title);
+            count = view.findViewById(R.id.count);
+            thumbnail = view.findViewById(R.id.thumbnail);
         }
     }
 
@@ -60,20 +61,25 @@ public class NoticiasAdapter extends RecyclerView.Adapter<NoticiasAdapter.MyView
 
         Picasso.get().load(noticia.getFeatured_image()).into(holder.thumbnail);
 
-
-        holder.noticiaCard.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showWebView(view);
+                showWebView(view, noticia.getSlug());
             }
-        });
+        };
+
+        holder.noticiaCard.setOnClickListener(listener);
+        holder.thumbnail.setOnClickListener(listener);
+
+
 
 
     }
 
-    private void showWebView(View view) {
+    private void showWebView(View view, String slug) {
         // open webview page when clicks on the card
         Intent intent = new Intent(mContext, NoticiaWebActivity.class);
+        intent.putExtra("noticiaSlug", slug);
         mContext.startActivity(intent);
 
     }

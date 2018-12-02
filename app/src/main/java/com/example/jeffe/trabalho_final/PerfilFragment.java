@@ -38,6 +38,7 @@ import android.widget.Toast;
 import com.example.jeffe.trabalho_final.Build.BuildCompleta;
 import com.example.jeffe.trabalho_final.Build.BuildFragment;
 import com.example.jeffe.trabalho_final.Build.MyBuilds;
+import com.example.jeffe.trabalho_final.Requests.FirebaseRequests;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -69,9 +70,6 @@ public class PerfilFragment extends Fragment {
     private Uri picUri;
 
 
-    FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
-    DatabaseReference databaseUsers = FirebaseDatabase.getInstance().getReference("Users").child(fUser.getUid());
-
     public boolean isInitializedFriend = false;
     public Usuario user;
 
@@ -91,6 +89,7 @@ public class PerfilFragment extends Fragment {
 
         ActivityCompat.requestPermissions(mainActivity,
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
+
     }
 
     @Override
@@ -315,55 +314,7 @@ public class PerfilFragment extends Fragment {
 
         final View view = inflater.inflate(R.layout.fragment_perfil, container, false);
 
-        databaseUsers.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                String userNameValue = dataSnapshot.child("userName").getValue(String.class);
-                String userLocValue = dataSnapshot.child("userLocalization").getValue(String.class);
-                String userDescriptionValue = dataSnapshot.child("userDescription").getValue(String.class);
-                String userPictureValue = dataSnapshot.child("userPicture").getValue(String.class);
-                Long userFriendListValue = dataSnapshot.child("userFriendList").getChildrenCount();
-                Long userBuildNValue = dataSnapshot.child("userBuilds").getChildrenCount();
-                String userEmailValue = dataSnapshot.child("userEmail").getValue(String.class);
-
-                userName = view.findViewById(R.id.tv_name);
-                userName.setText(userNameValue);
-                userAdress = view.findViewById(R.id.tv_address);
-                userAdress.setText(userLocValue);
-                userEmail = view.findViewById(R.id.tv_email);
-                userEmail.setText(userEmailValue);
-
-                Log.d("a", "sa: " + userDescriptionValue);
-
-                if (userDescriptionValue == null) {
-                    Log.d("a", "sa2: " + userDescriptionValue);
-                    userDescriptionValue = "Esse usuário não possui descrição";
-                }
-
-                Log.d("aa", "u: " + userDescriptionValue);
-
-                userDesc = view.findViewById(R.id.tv_desc);
-                userDesc.setText(userDescriptionValue);
-
-                numeroBuilds = view.findViewById(R.id.numberBuild);
-
-                numeroBuilds.setText(userBuildNValue.toString());
-
-                if (userFriendListValue == 0) {
-                    userFriendListValue = Long.valueOf(0);
-                }
-
-                userFriendList = view.findViewById(R.id.tv_friends);
-                userFriendList.setText(userFriendListValue.toString());
-                //   numeroBuilds.setText(String.valueOf( MyBuilds.getInstance().getBuildsSize()));
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
+        FirebaseRequests.GetInstance().GetUserProfile(this);
         return view;
     }
 
@@ -371,6 +322,7 @@ public class PerfilFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        PerfilFragment mContext = this;
         userPic = getView().findViewById(R.id.userPic);
 
         final ImageView button = view.findViewById(R.id.userPic);
@@ -389,24 +341,60 @@ public class PerfilFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                FirebaseAuth firebaseAuth;
-                FirebaseAuth.AuthStateListener authStateListener = new FirebaseAuth.AuthStateListener() {
-                    @Override
-                    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                        if (firebaseAuth.getCurrentUser() == null){
-                            startActivity(new Intent(mContext, LoginActivity.class)); // TA TRAVANDO O APP
-                        }
-                        else {
-                        }
-                    }
-                };
+                FirebaseRequests.GetInstance().Logout(mContext);
 
-                firebaseAuth = FirebaseAuth.getInstance();
-                firebaseAuth.addAuthStateListener(authStateListener);
-
-                firebaseAuth.signOut();
             }
         });
 
+        }
+
+        public void backToLogin(){
+            startActivity(new Intent(mContext, LoginActivity.class)); // TA TRAVANDO O APP
+
+        }
+
+        public void getProfileData(DataSnapshot dataSnapshot){
+
+            String userNameValue = dataSnapshot.child("userName").getValue(String.class);
+            String userLocValue = dataSnapshot.child("userLocalization").getValue(String.class);
+            String userDescriptionValue = dataSnapshot.child("userDescription").getValue(String.class);
+            String userPictureValue = dataSnapshot.child("userPicture").getValue(String.class);
+            Long userFriendListValue = dataSnapshot.child("userFriendList").getChildrenCount();
+            Long userBuildNValue = dataSnapshot.child("userBuilds").getChildrenCount();
+            String userEmailValue = dataSnapshot.child("userEmail").getValue(String.class);
+
+            userName = getView().findViewById(R.id.tv_name);
+            userName.setText(userNameValue);
+
+            userAdress = getView().findViewById(R.id.tv_address);
+            userAdress.setText(userLocValue);
+
+            userEmail = getView().findViewById(R.id.tv_email);
+            userEmail.setText(userEmailValue);
+
+
+            Log.d("a", "sa: " + userDescriptionValue);
+
+            if (userDescriptionValue == null) {
+                Log.d("a", "sa2: " + userDescriptionValue);
+                userDescriptionValue = "Esse usuário não possui descrição";
+            }
+
+            Log.d("aa", "u: " + userDescriptionValue);
+
+            userDesc = getView().findViewById(R.id.tv_desc);
+            userDesc.setText(userDescriptionValue);
+
+            numeroBuilds = getView().findViewById(R.id.numberBuild);
+
+            FirebaseRequests.GetInstance().getListaBuildsSize(this);
+
+            if (userFriendListValue == 0) {
+                userFriendListValue = Long.valueOf(0);
+            }
+
+            userFriendList = getView().findViewById(R.id.tv_friends);
+            userFriendList.setText(userFriendListValue.toString());
+            //   numeroBuilds.setText(String.valueOf( MyBuilds.getInstance().getBuildsSize()));
         }
 }

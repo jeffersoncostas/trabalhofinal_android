@@ -1,6 +1,7 @@
 package com.example.jeffe.trabalho_final.Requests;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -8,6 +9,7 @@ import com.example.jeffe.trabalho_final.Build.BuildCompleta;
 import com.example.jeffe.trabalho_final.Build.BuildListsFragment;
 import com.example.jeffe.trabalho_final.Build.Item;
 import com.example.jeffe.trabalho_final.LoginActivity;
+import com.example.jeffe.trabalho_final.PerfilFragment;
 import com.example.jeffe.trabalho_final.SignupActivity;
 import com.example.jeffe.trabalho_final.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,6 +36,7 @@ public class FirebaseRequests {
     DatabaseReference databaseUsers;
     DatabaseReference currentUserDatabase;
 
+    final List<BuildCompleta> listaDeBuilds = new ArrayList<>();
 
     private FirebaseRequests(){
         init();
@@ -50,7 +53,11 @@ public class FirebaseRequests {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         databaseUsers = FirebaseDatabase.getInstance().getReference("Users");
-        currentUserDatabase = databaseUsers.child(currentUser.getUid());
+
+        if(currentUser != null){
+            currentUserDatabase = databaseUsers.child(currentUser.getUid());
+
+        }
     }
 
 
@@ -102,7 +109,6 @@ public class FirebaseRequests {
         });
     }
 
-
     public Task CreateBuild(BuildCompleta novaBuild){
          VerifyBuild(novaBuild);
          String id = currentUserDatabase.child("userBuild").push().getKey();
@@ -112,12 +118,12 @@ public class FirebaseRequests {
     }
 
     public  void GetUserBuilds(final BuildListsFragment buildListsFragment){
-       final List<BuildCompleta> listaDeBuilds = new ArrayList<>();
 
         currentUserDatabase.child("userBuild").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 GenericTypeIndicator<List<Item>> typeListItem = new GenericTypeIndicator<List<Item>>() {};
+                listaDeBuilds.clear();
                 for (DataSnapshot build : dataSnapshot.getChildren()){
                     Log.d("data change","on get builds");
                     String id = build.getKey();
@@ -132,10 +138,6 @@ public class FirebaseRequests {
                     buildListsFragment.buildListsAdapter.notifyDataSetChanged();
 
                     Log.d("Lista builds","buildListFragment " + buildListsFragment.listaDeBuilds.get(0).getListaItemsBuild().get(0).getDeviceName());
-
-
-
-
                 }
 
 
@@ -144,6 +146,7 @@ public class FirebaseRequests {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
 
             }
         });
@@ -180,4 +183,69 @@ public class FirebaseRequests {
 
     }
 
+    public void GetUserProfile(final PerfilFragment perfilFragment){
+
+        currentUserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                perfilFragment.getProfileData(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    public void Logout(PerfilFragment perfilFragment){
+        FirebaseAuth.AuthStateListener mAuthListener =  new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if( mAuth.getCurrentUser() == null){
+
+                    perfilFragment.backToLogin();
+                }
+
+            }
+        };
+        mAuth.addAuthStateListener(mAuthListener);
+
+        mAuth.signOut();
+
+    }
+
+    public void getListaBuildsSize(PerfilFragment perfilFragment){
+        currentUserDatabase.child("userBuild").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                GenericTypeIndicator<List<Item>> typeListItem = new GenericTypeIndicator<List<Item>>() {};
+                listaDeBuilds.clear();
+                for (DataSnapshot build : dataSnapshot.getChildren()){
+
+                    String id = build.getKey();
+                    String nome = build.child("buildName").getValue(String.class);
+                    List<Item> listaItemsBuild  = build.child("listaItemsBuild").getValue(typeListItem);
+
+                    BuildCompleta buildCompleta = new BuildCompleta(listaItemsBuild,nome);
+                    buildCompleta.setBuildId(id);
+                    listaDeBuilds.add(buildCompleta);
+
+                }
+                perfilFragment.numeroBuilds.setText( Integer.toString(listaDeBuilds.size()));
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+    }
 }
