@@ -26,7 +26,7 @@ public class BuildListsFragment extends Fragment {
 
     public List<BuildCompleta> listaDeBuilds;
     private RecyclerView recyclerView;
-    private BuildListsAdapter buildListsAdapter;
+    public BuildListsAdapter buildListsAdapter;
 
     private BuildCompleta novaBuildSent;
 
@@ -72,7 +72,8 @@ public class BuildListsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        listaDeBuilds = MyBuilds.getInstance().getBuilds();
+        listaDeBuilds = new ArrayList<>();
+
         recyclerView = getView().findViewById(R.id.recycler_view);
         buildListsAdapter = new BuildListsAdapter(this,listaDeBuilds);
 
@@ -81,7 +82,10 @@ public class BuildListsFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(buildListsAdapter);
 
+
         Log.d("created view","a");
+
+        MyBuilds.getInstance().getBuilds(this);
 
     }
 

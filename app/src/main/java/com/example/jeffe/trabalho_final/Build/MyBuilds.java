@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Adapter;
 import android.widget.Toast;
 
+import com.example.jeffe.trabalho_final.Firebase.FirebaseRequests;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -43,47 +44,18 @@ public class MyBuilds {
         Log.d("enviandoNovaBuild","xds");
         final BuildCompleta novaBuild = new BuildCompleta(nBuild, buildname);
 
-        databaseUsers.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("enviandoNovaBuild","aqui: " + novaBuild.toString());
-                DatabaseReference buildListRef = databaseUsers.child("userBuild");
-                buildListRef.push().setValue(novaBuild);
-                }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-      /*  listaDeBuilds.add(novaBuild); */
+        FirebaseRequests.GetInstance().CreateBuild(novaBuild);
 
 
 
     }
 
-    public List<BuildCompleta> getBuilds(){
+    public void getBuilds(BuildListsFragment buildListsFragment){
         Log.d("getbuild",":::::::" + listaDeBuilds);
 
-        databaseUsers.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                boolean isOkay;
-                for (DataSnapshot snapshot : dataSnapshot.child("userBuild").getChildren()) {
+            FirebaseRequests.GetInstance().GetUserBuilds(buildListsFragment);
 
-                    Log.d("aaaz", "bbbbbbb:" + dataSnapshot.child("userBuild").getValue());
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        return listaDeBuilds;
     }
 
     public void deleteBuild(BuildCompleta item) {
@@ -92,7 +64,10 @@ public class MyBuilds {
     }
 
     public int getBuildsSize(){
+
         return listaDeBuilds.size();
     }
+
+
 
 }

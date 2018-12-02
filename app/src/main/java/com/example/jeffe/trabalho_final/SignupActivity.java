@@ -33,16 +33,12 @@ public class SignupActivity extends AppCompatActivity {
     @InjectView(R.id.btn_signup) Button _signupButton;
     @InjectView(R.id.link_login) TextView _loginLink;
 
-    private FirebaseAuth auth;
-    DatabaseReference databaseUsers;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         ButterKnife.inject(this);
-
-        databaseUsers = FirebaseDatabase.getInstance().getReference("Users");
 
         _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,11 +61,6 @@ public class SignupActivity extends AppCompatActivity {
     public void signup() {
         Log.d(TAG, "Signup");
 
-        // ISSO AQUI TA BUGANDO O CADASTRO, VER DEPOIS
-//        if (!validate()) {
-//            onSignupFailed();
-//            return;
-//        }
 
         _signupButton.setEnabled(false);
 
