@@ -1,19 +1,29 @@
 package com.example.jeffe.trabalho_final.Build;
 
-public class Item {
+import com.google.gson.annotations.SerializedName;
 
+public class Item {
+    @SerializedName("ItemId")
     private String ItemId;
+
+    @SerializedName("DeviceName")
     private String DeviceName;
+
+    @SerializedName("itemIcon_URL")
     private String itemIcon_url;
+
+    @SerializedName("ShortDesc")
     private String ShortDesc;
+
+    @SerializedName("Price")
     private String Price;
     public boolean IsUsing;
 
     public Item(){}
-    public Item(String itemId, String deviceName, String itemIcon_url, String shortDesc, String price,boolean isUsing) {
+    public Item(String itemId, String deviceName, String itemIconurl, String shortDesc, String price,boolean isUsing) {
         ItemId = itemId;
         DeviceName = deviceName;
-        this.itemIcon_url = itemIcon_url;
+        itemIcon_url = itemIconurl;
         ShortDesc = shortDesc;
         Price = price;
         IsUsing = isUsing;

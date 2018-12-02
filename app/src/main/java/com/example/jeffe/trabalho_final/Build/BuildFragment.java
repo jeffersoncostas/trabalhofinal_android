@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.jeffe.trabalho_final.R;
+import com.example.jeffe.trabalho_final.Requests.HttpRequests;
 
 import org.w3c.dom.Text;
 
@@ -40,8 +41,8 @@ public class BuildFragment extends Fragment {
 
     private RecyclerView recyclerView;
 
-    private List<Item> itemList;
-    private ItensAdapter itensAdapter;
+    public List<Item> itemList;
+    public ItensAdapter itensAdapter;
 
     private static BuildFragment uniqueInstance = null;
 
@@ -134,14 +135,15 @@ public class BuildFragment extends Fragment {
 
 
     public void getItems(){
-        Item n = new Item("1","Qin","https://web2.hirez.com/smite/item-icons/qins-sais.jpg","Bonus damage based on target's maximum Health","1,450",false);
-        itemList.add(n);
-
-        n = new Item("2","Light Blade","https://web2.hirez.com/smite/item-icons/light-blade.jpg","Physical Power and Attack Speed.","1,450",false);
-        itemList.add(n);
-
-        n = new Item("3","The Executioner","https://web2.hirez.com/smite/item-icons/the-executioner.jpg","Basic Attacks reduce target's Physical Protection","1,450",false);
-        itemList.add(n);
+        HttpRequests.GetInstance().getItems(this);
+//        Item n = new Item("1","Qin","https://web2.hirez.com/smite/item-icons/qins-sais.jpg","Bonus damage based on target's maximum Health","1,450",false);
+//        itemList.add(n);
+//
+//        n = new Item("2","Light Blade","https://web2.hirez.com/smite/item-icons/light-blade.jpg","Physical Power and Attack Speed.","1,450",false);
+//        itemList.add(n);
+//
+//        n = new Item("3","The Executioner","https://web2.hirez.com/smite/item-icons/the-executioner.jpg","Basic Attacks reduce target's Physical Protection","1,450",false);
+//        itemList.add(n);
 
         itensAdapter.notifyDataSetChanged();
     }

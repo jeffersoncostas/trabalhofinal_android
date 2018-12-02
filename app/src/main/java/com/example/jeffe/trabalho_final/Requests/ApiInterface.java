@@ -1,4 +1,5 @@
 package com.example.jeffe.trabalho_final.Requests;
+import com.example.jeffe.trabalho_final.Build.Item;
 import com.example.jeffe.trabalho_final.Noticias.Noticia;
 
 import java.util.List;
@@ -13,5 +14,5 @@ public interface ApiInterface {
     Call<List<Noticia>> getNews(@Query("per_page") int newsCount);
 
     @GET("getItems/1")
-    Call<List<Noticia>> getItems();
+    Call<List<Item>> getItems();
 }
