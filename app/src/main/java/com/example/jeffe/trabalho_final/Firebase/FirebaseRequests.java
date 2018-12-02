@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 import com.example.jeffe.trabalho_final.LoginActivity;
 import com.example.jeffe.trabalho_final.SignupActivity;
+import com.example.jeffe.trabalho_final.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -20,6 +21,7 @@ public class FirebaseRequests {
 
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
+    DatabaseReference databaseUsers;
     DatabaseReference currentUserDatabase;
 
 
@@ -34,11 +36,11 @@ public class FirebaseRequests {
         return uniqueInstance;
     }
 
-    public void init(){
+    private void init(){
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-
-        currentUserDatabase = FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid());
+        databaseUsers = FirebaseDatabase.getInstance().getReference("Users");
+        currentUserDatabase = databaseUsers.child(currentUser.getUid());
     }
 
 
@@ -66,7 +68,7 @@ public class FirebaseRequests {
 
     }
 
-    public void CreateAccount(String email, String password, String location, final SignupActivity signupActivity){
+    public void CreateAccount(final String name, final String email, String password, final String location, final SignupActivity signupActivity){
 
         mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(signupActivity, new OnCompleteListener<AuthResult>() {
             @Override
@@ -74,10 +76,15 @@ public class FirebaseRequests {
 
 
                 if(task.isSuccessful()){
+                    String id = databaseUsers.push().getKey();
+                    currentUser = mAuth.getCurrentUser();
+                    Usuario user = new Usuario(id,name,email,location);
+                    databaseUsers.child(currentUser.getUid()).setValue(user);
+
                     signupActivity.onSignupSuccess();
                 }
                 else{
-                    signupActivity.onSignupFailed();
+                    signupActivity.onSignupFailed(task);
                 }
 
             }
