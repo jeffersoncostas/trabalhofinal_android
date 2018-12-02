@@ -231,18 +231,7 @@ public class PerfilFragment extends Fragment {
 
         int scale = 1;
 
-        while (true)
-        {
-            if (width_tmp / 2 < REQUIRED_SIZE || height_tmp / 2 < REQUIRED_SIZE)
-            {
-                break;
-            }
-            width_tmp /= 2;
 
-            height_tmp /= 2;
-
-            scale *= 2;
-        }
 
         BitmapFactory.Options o2 = new BitmapFactory.Options();
 
@@ -268,12 +257,13 @@ public class PerfilFragment extends Fragment {
                 Bitmap b = null;
                 try {
                     b = decodeUri(fileUri);
-                    getCircularBitmap(b);
                     Log.d("porra", "aff:" + b);
                 } catch (FileNotFoundException e) {
                     Log.d("porra", "aff2");
                     e.printStackTrace();
                 }
+
+                userPic.setImageBitmap(getCircularBitmap(b));
 
             }
 
@@ -282,7 +272,7 @@ public class PerfilFragment extends Fragment {
         }
     }
 
-    public static void getCircularBitmap(Bitmap bitmap) {
+    public static Bitmap getCircularBitmap(Bitmap bitmap) {
         Bitmap output;
 
         if (bitmap.getWidth() > bitmap.getHeight()) {
@@ -312,7 +302,7 @@ public class PerfilFragment extends Fragment {
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);
 
-   //     userPic.setImageBitmap(b);
+        return output;
 
     }
 
