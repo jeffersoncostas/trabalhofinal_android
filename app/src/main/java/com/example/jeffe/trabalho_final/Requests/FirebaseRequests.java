@@ -1,9 +1,6 @@
-package com.example.jeffe.trabalho_final.Firebase;
+package com.example.jeffe.trabalho_final.Requests;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.os.Build;
-import android.os.Debug;
 import android.support.annotation.NonNull;
 import android.util.Log;
 

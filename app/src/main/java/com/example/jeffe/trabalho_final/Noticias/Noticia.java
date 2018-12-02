@@ -2,13 +2,22 @@ package com.example.jeffe.trabalho_final.Noticias;
 
 
 import com.squareup.picasso.Picasso;
+import com.google.gson.annotations.SerializedName;
 
 public class Noticia {
-
+    @SerializedName("id")
     private int id;
+
+    @SerializedName("featured_image")
     private String featured_image;
+
+    @SerializedName("title")
     private String title;
+
+    @SerializedName("slug")
     private String slug;
+
+    @SerializedName("author")
     private String author;
 
 
