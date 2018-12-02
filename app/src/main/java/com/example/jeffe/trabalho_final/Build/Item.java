@@ -9,6 +9,7 @@ public class Item {
     private String Price;
     public boolean IsUsing;
 
+    public Item(){}
     public Item(String itemId, String deviceName, String itemIcon_url, String shortDesc, String price,boolean isUsing) {
         ItemId = itemId;
         DeviceName = deviceName;

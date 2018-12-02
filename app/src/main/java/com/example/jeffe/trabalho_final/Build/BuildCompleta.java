@@ -7,12 +7,14 @@ import java.text.SimpleDateFormat;
 
 public class BuildCompleta {
 
-    private String BuildName;
+
+    private String buildId;
+    private String buildName;
     private List<Item> listaItemsBuild;
     private Date dataDeCriacao;
 
     public BuildCompleta( List<Item> listaItemsBuild,String BuildName) {
-        this.BuildName = BuildName;
+        this.buildName = BuildName;
         this.listaItemsBuild = listaItemsBuild;
         this.dataDeCriacao = new Date();
     }
@@ -30,11 +32,20 @@ public class BuildCompleta {
     }
 
     public String getBuildName() {
-        return BuildName;
+        return buildName;
     }
 
     public void setBuildName(String buildName) {
-        this.BuildName = buildName;
+        this.buildName = buildName;
+    }
+
+
+    public String getBuildId() {
+        return buildId;
+    }
+
+    public void setBuildId(String buildId) {
+        this.buildId = buildId;
     }
 
     public String returnDate() {

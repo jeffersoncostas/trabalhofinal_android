@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.jeffe.trabalho_final.Firebase.FirebaseRequests;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -32,16 +33,12 @@ public class SignupActivity extends AppCompatActivity {
     @InjectView(R.id.btn_signup) Button _signupButton;
     @InjectView(R.id.link_login) TextView _loginLink;
 
-    private FirebaseAuth auth;
-    DatabaseReference databaseUsers;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         ButterKnife.inject(this);
-
-        databaseUsers = FirebaseDatabase.getInstance().getReference("Users");
 
         _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,11 +61,6 @@ public class SignupActivity extends AppCompatActivity {
     public void signup() {
         Log.d(TAG, "Signup");
 
-        // ISSO AQUI TA BUGANDO O CADASTRO, VER DEPOIS
-//        if (!validate()) {
-//            onSignupFailed();
-//            return;
-//        }
 
         _signupButton.setEnabled(false);
 
@@ -83,41 +75,14 @@ public class SignupActivity extends AppCompatActivity {
         final String password = _passwordText.getText().toString();
         final String location = "loc";
 
-        auth = FirebaseAuth.getInstance();
+        FirebaseRequests.GetInstance().CreateAccount(name,email,password,location,this);
 
-        auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Toast.makeText(SignupActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
-                        if (!task.isSuccessful()) {
-                            Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
-                                    Toast.LENGTH_SHORT).show();
-                            onSignupFailed();
-                        } else {
-                            String id = databaseUsers.push().getKey();
-                            FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
-                            Usuario user = new Usuario(id, name, email, location);
-                            databaseUsers.child(fUser.getUid()).setValue(user);
-                            onSignupSuccess();
-                        }
-                    }
-                });
-
-//        new android.os.Handler().postDelayed(
-//                new Runnable() {
-//                    public void run() {
-//                        // On complete call either onSignupSuccess or onSignupFailed
-//                        // depending on success
-//                        onSignupSuccess();
-//                        // onSignupFailed();
-//                        progressDialog.dismiss();
-//                    }
-//                }, 3000);
     }
 
 
     public void onSignupSuccess() {
+
+
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -125,7 +90,10 @@ public class SignupActivity extends AppCompatActivity {
         finish();
     }
 
-    public void onSignupFailed() {
+    public void onSignupFailed(Task task) {
+
+        Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
+                Toast.LENGTH_SHORT).show();
         Toast.makeText(getBaseContext(), "Failed", Toast.LENGTH_LONG).show();
 
         _signupButton.setEnabled(true);
