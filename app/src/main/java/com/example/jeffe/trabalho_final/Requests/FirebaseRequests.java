@@ -2,6 +2,7 @@ package com.example.jeffe.trabalho_final.Requests;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -13,6 +14,7 @@ import com.example.jeffe.trabalho_final.PerfilFragment;
 import com.example.jeffe.trabalho_final.SignupActivity;
 import com.example.jeffe.trabalho_final.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -124,6 +126,7 @@ public class FirebaseRequests {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 GenericTypeIndicator<List<Item>> typeListItem = new GenericTypeIndicator<List<Item>>() {};
                 listaDeBuilds.clear();
+                buildListsFragment.listaDeBuilds.clear();
                 for (DataSnapshot build : dataSnapshot.getChildren()){
                     Log.d("data change","on get builds");
                     String id = build.getKey();
@@ -218,7 +221,7 @@ public class FirebaseRequests {
 
     }
 
-    public void getListaBuildsSize(PerfilFragment perfilFragment){
+    public void getListaBuildsSize( PerfilFragment perfilFragment){
         currentUserDatabase.child("userBuild").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -247,5 +250,35 @@ public class FirebaseRequests {
 
 
 
+    }
+
+    public void DeleteBuild(BuildCompleta buildCompleta, BuildListsFragment buildListsFragment){
+        currentUserDatabase.child("userBuild").child(buildCompleta.getBuildId()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("apaguei,","toda");
+
+                currentUserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                         if (dataSnapshot.hasChild("userBuild") == false){
+
+                             buildListsFragment.listaDeBuilds.clear();
+                             buildListsFragment.buildListsAdapter.notifyDataSetChanged();
+                         }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
+
+
+
+            }
+        });
     }
 }

@@ -1,5 +1,6 @@
 package com.example.jeffe.trabalho_final.Build;
 
+import android.os.Build;
 import android.util.Log;
 
 import com.example.jeffe.trabalho_final.Requests.FirebaseRequests;
@@ -51,8 +52,8 @@ public class MyBuilds {
 
     }
 
-    public void deleteBuild(BuildCompleta item) {
-        listaDeBuilds.removeAll(Arrays.asList(item));
+    public void deleteBuild(BuildCompleta item, BuildListsFragment buildListsFragment) {
+        FirebaseRequests.GetInstance().DeleteBuild(item, buildListsFragment);
 
     }
 
