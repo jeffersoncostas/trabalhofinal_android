@@ -1,35 +1,21 @@
 package com.example.jeffe.trabalho_final;
 
-import android.annotation.TargetApi;
 import android.app.ProgressDialog;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import android.content.Intent;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.jeffe.trabalho_final.Firebase.FirebaseRequests;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.jeffe.trabalho_final.Requests.FirebaseRequests;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";

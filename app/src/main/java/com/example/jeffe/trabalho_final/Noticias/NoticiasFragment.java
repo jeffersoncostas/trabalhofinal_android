@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.jeffe.trabalho_final.R;
+import com.example.jeffe.trabalho_final.Requests.HttpRequests;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +27,8 @@ public class NoticiasFragment extends Fragment {
 
     private RecyclerView recyclerView;
 
-    private List<Noticia> noticiaList;
-    private NoticiasAdapter noticiaAdapter;
+    public List<Noticia> noticiaList;
+    public NoticiasAdapter noticiaAdapter;
 
 
     public NoticiasFragment() {
@@ -74,17 +75,19 @@ public class NoticiasFragment extends Fragment {
 
     public void getNoticias(){
 
-        Noticia n = new Noticia('1',"https://web2.hirez.com/smite-media//wp-content/uploads/2018/11/PatchNotes-PatchBadge-UpdateNotes-FeatImg-283x213-3.jpg","Celestial Domination | 5.21 Update Notes","celestial-domination-5-21-update-notes","TitanIsiah");
-        noticiaList.add(n);
+        HttpRequests.GetInstance().getNews(this);
 
-        n = new Noticia('1',"https://web2.hirez.com/smite-media//wp-content/uploads/2018/11/PatchNotes-PatchBadge-UpdateNotes-FeatImg-283x213-3.jpg","Teste","celestial-domination-5-21-update-notes","TitanIsiah");
-        noticiaList.add(n);
-
-        n = new Noticia('1',"https://web2.hirez.com/smite-media//wp-content/uploads/2018/11/PatchNotes-PatchBadge-UpdateNotes-FeatImg-283x213-3.jpg","Teste","celestial-domination-5-21-update-notes","TitanIsiah");
-        noticiaList.add(n);
-
-        n = new Noticia('1',"https://web2.hirez.com/smite-media//wp-content/uploads/2018/11/PatchNotes-PatchBadge-UpdateNotes-FeatImg-283x213-3.jpg","Teste","celestial-domination-5-21-update-notes","TitanIsiah");
-        noticiaList.add(n);
+//        Noticia n = new Noticia('1',"https://web2.hirez.com/smite-media//wp-content/uploads/2018/11/PatchNotes-PatchBadge-UpdateNotes-FeatImg-283x213-3.jpg","Celestial Domination | 5.21 Update Notes","celestial-domination-5-21-update-notes","TitanIsiah");
+//        noticiaList.add(n);
+//
+//        n = new Noticia('1',"https://web2.hirez.com/smite-media//wp-content/uploads/2018/11/PatchNotes-PatchBadge-UpdateNotes-FeatImg-283x213-3.jpg","Teste","celestial-domination-5-21-update-notes","TitanIsiah");
+//        noticiaList.add(n);
+//
+//        n = new Noticia('1',"https://web2.hirez.com/smite-media//wp-content/uploads/2018/11/PatchNotes-PatchBadge-UpdateNotes-FeatImg-283x213-3.jpg","Teste","celestial-domination-5-21-update-notes","TitanIsiah");
+//        noticiaList.add(n);
+//
+//        n = new Noticia('1',"https://web2.hirez.com/smite-media//wp-content/uploads/2018/11/PatchNotes-PatchBadge-UpdateNotes-FeatImg-283x213-3.jpg","Teste","celestial-domination-5-21-update-notes","TitanIsiah");
+//        noticiaList.add(n);
 
         noticiaAdapter.notifyDataSetChanged();
 
