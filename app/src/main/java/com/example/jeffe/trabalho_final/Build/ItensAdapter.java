@@ -62,7 +62,7 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         final Item item = itemList.get(position);
         holder.title.setText(item.getDeviceName());
-        holder.price.setText(item.getPrice());
+        holder.price.setText(item.getPrice().toString());
         Picasso.get().load(item.getItemIcon_url()).into(holder.thumbnail);
 
         View.OnClickListener listenerCard = new View.OnClickListener() {

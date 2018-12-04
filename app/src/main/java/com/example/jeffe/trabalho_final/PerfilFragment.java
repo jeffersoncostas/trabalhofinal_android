@@ -55,7 +55,6 @@ import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
 
-
 public class PerfilFragment extends Fragment {
 
     public TextView numeroBuilds;
@@ -69,11 +68,12 @@ public class PerfilFragment extends Fragment {
     public Context mContext;
     private Uri picUri;
 
-
     public boolean isInitializedFriend = false;
     public Usuario user;
 
     private static PerfilFragment uniqueInstance = null;
+
+    private static PerfilFragment pF;
 
     public static MainActivity mainActivity;
 
@@ -333,28 +333,22 @@ public class PerfilFragment extends Fragment {
         });
 
         auth = FirebaseAuth.getInstance();
-
         Button logoutBtn = (Button) getView().findViewById(R.id.btnLogout);
 
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-
+        logoutBtn.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
+            public void onClick(View v){
 
-                FirebaseRequests.GetInstance().Logout(mContext);
-
+                FirebaseRequests.GetInstance().Logout(pF);
             }
         });
-
-        }
+    }
 
         public void backToLogin(){
             startActivity(new Intent(mContext, LoginActivity.class)); // TA TRAVANDO O APP
-
         }
 
         public void getProfileData(DataSnapshot dataSnapshot){
-
             String userNameValue = dataSnapshot.child("userName").getValue(String.class);
             String userLocValue = dataSnapshot.child("userLocalization").getValue(String.class);
             String userDescriptionValue = dataSnapshot.child("userDescription").getValue(String.class);
@@ -372,15 +366,9 @@ public class PerfilFragment extends Fragment {
             userEmail = getView().findViewById(R.id.tv_email);
             userEmail.setText(userEmailValue);
 
-
-            Log.d("a", "sa: " + userDescriptionValue);
-
             if (userDescriptionValue == null) {
-                Log.d("a", "sa2: " + userDescriptionValue);
                 userDescriptionValue = "Esse usuário não possui descrição";
             }
-
-            Log.d("aa", "u: " + userDescriptionValue);
 
             userDesc = getView().findViewById(R.id.tv_desc);
             userDesc.setText(userDescriptionValue);
@@ -395,6 +383,5 @@ public class PerfilFragment extends Fragment {
 
             userFriendList = getView().findViewById(R.id.tv_friends);
             userFriendList.setText(userFriendListValue.toString());
-            //   numeroBuilds.setText(String.valueOf( MyBuilds.getInstance().getBuildsSize()));
         }
 }

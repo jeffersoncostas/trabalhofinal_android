@@ -204,12 +204,11 @@ public class FirebaseRequests {
 
     }
 
-    public void Logout(PerfilFragment perfilFragment){
+    public void Logout(final PerfilFragment perfilFragment){
         FirebaseAuth.AuthStateListener mAuthListener =  new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if( mAuth.getCurrentUser() == null){
-
+                if(mAuth.getCurrentUser() == null){
                     perfilFragment.backToLogin();
                 }
 
@@ -221,7 +220,7 @@ public class FirebaseRequests {
 
     }
 
-    public void getListaBuildsSize( PerfilFragment perfilFragment){
+    public void getListaBuildsSize(final PerfilFragment perfilFragment){
         currentUserDatabase.child("userBuild").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -231,15 +230,15 @@ public class FirebaseRequests {
 
                     String id = build.getKey();
                     String nome = build.child("buildName").getValue(String.class);
-                    List<Item> listaItemsBuild  = build.child("listaItemsBuild").getValue(typeListItem);
+                    Log.d("aaa", "bbb:" + build.child("listaItemsBuild").getValue(typeListItem));
+                    List<Item> listaItemsBuild = build.child("listaItemsBuild").getValue(typeListItem);
 
-                    BuildCompleta buildCompleta = new BuildCompleta(listaItemsBuild,nome);
+                    BuildCompleta buildCompleta = new BuildCompleta(listaItemsBuild, nome);
                     buildCompleta.setBuildId(id);
                     listaDeBuilds.add(buildCompleta);
 
                 }
-                perfilFragment.numeroBuilds.setText( Integer.toString(listaDeBuilds.size()));
-
+                perfilFragment.numeroBuilds.setText(Long.toString(listaDeBuilds.size()));
             }
 
             @Override
@@ -252,7 +251,7 @@ public class FirebaseRequests {
 
     }
 
-    public void DeleteBuild(BuildCompleta buildCompleta, BuildListsFragment buildListsFragment){
+    public void DeleteBuild(BuildCompleta buildCompleta, final BuildListsFragment buildListsFragment){
         currentUserDatabase.child("userBuild").child(buildCompleta.getBuildId()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
