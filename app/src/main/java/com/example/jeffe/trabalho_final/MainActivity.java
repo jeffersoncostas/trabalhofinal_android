@@ -2,6 +2,7 @@ package com.example.jeffe.trabalho_final;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -32,6 +33,7 @@ import android.widget.Toast;
 
 import com.example.jeffe.trabalho_final.Amigos.AmigosAdapter;
 import com.example.jeffe.trabalho_final.Amigos.AmigosFragment;
+import com.example.jeffe.trabalho_final.Broadcasts.BroadcastInternet;
 import com.example.jeffe.trabalho_final.Build.BuildFragment;
 import com.example.jeffe.trabalho_final.Build.BuildListsFragment;
 import com.example.jeffe.trabalho_final.Build.Item;
@@ -112,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
        initializeBottomNavigation();
+        addBroadcastInternet();
 
     }
 
@@ -212,6 +215,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     public void addFriend(View view){
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.popup_addfriend, null);
@@ -302,5 +306,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void addBroadcastInternet(){
+        BroadcastInternet broadcastInternet = new BroadcastInternet();
+        IntentFilter filter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+
+        this.registerReceiver(broadcastInternet, filter);
     }
 }
