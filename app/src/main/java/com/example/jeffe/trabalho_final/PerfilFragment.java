@@ -344,10 +344,6 @@ public class PerfilFragment extends Fragment {
         });
     }
 
-        public void backToLogin(){
-            startActivity(new Intent(mContext, LoginActivity.class)); // TA TRAVANDO O APP
-        }
-
         public void getProfileData(DataSnapshot dataSnapshot){
             String userNameValue = dataSnapshot.child("userName").getValue(String.class);
             String userLocValue = dataSnapshot.child("userLocalization").getValue(String.class);

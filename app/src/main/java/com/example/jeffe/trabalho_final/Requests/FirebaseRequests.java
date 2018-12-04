@@ -1,6 +1,8 @@
 package com.example.jeffe.trabalho_final.Requests;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -10,6 +12,7 @@ import com.example.jeffe.trabalho_final.Build.BuildCompleta;
 import com.example.jeffe.trabalho_final.Build.BuildListsFragment;
 import com.example.jeffe.trabalho_final.Build.Item;
 import com.example.jeffe.trabalho_final.LoginActivity;
+import com.example.jeffe.trabalho_final.MainActivity;
 import com.example.jeffe.trabalho_final.PerfilFragment;
 import com.example.jeffe.trabalho_final.SignupActivity;
 import com.example.jeffe.trabalho_final.Usuario;
@@ -37,6 +40,9 @@ public class FirebaseRequests {
     FirebaseUser currentUser;
     DatabaseReference databaseUsers;
     DatabaseReference currentUserDatabase;
+    public LoginActivity loginActivity;
+    public MainActivity mainActivity;
+    public Context mContext;
 
     final List<BuildCompleta> listaDeBuilds = new ArrayList<>();
 
@@ -88,12 +94,9 @@ public class FirebaseRequests {
     }
 
     public void CreateAccount(final String name, final String email, String password, final String location, final SignupActivity signupActivity){
-
         mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(signupActivity, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-
-
                 if(task.isSuccessful()){
 
                     String id = databaseUsers.push().getKey();
@@ -120,7 +123,6 @@ public class FirebaseRequests {
     }
 
     public  void GetUserBuilds(final BuildListsFragment buildListsFragment){
-
         currentUserDatabase.child("userBuild").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -157,8 +159,6 @@ public class FirebaseRequests {
     }
 
     public void VerifyBuild(final BuildCompleta buildCompleta){
-
-
         currentUserDatabase.child("userBuild").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -187,21 +187,16 @@ public class FirebaseRequests {
     }
 
     public void GetUserProfile(final PerfilFragment perfilFragment){
-
         currentUserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                 perfilFragment.getProfileData(dataSnapshot);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
-
-
     }
 
     public void Logout(final PerfilFragment perfilFragment){
@@ -209,13 +204,12 @@ public class FirebaseRequests {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(mAuth.getCurrentUser() == null){
-                    perfilFragment.backToLogin();
+              //      mContext.startActivity(new Intent(perfilFragment.getContext(), LoginActivity.class));
                 }
-
             }
         };
-        mAuth.addAuthStateListener(mAuthListener);
 
+        mAuth.addAuthStateListener(mAuthListener);
         mAuth.signOut();
 
     }
