@@ -322,9 +322,8 @@ public class PerfilFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        PerfilFragment mContext = this;
         userPic = getView().findViewById(R.id.userPic);
-
+        pF = this;
         final ImageView button = view.findViewById(R.id.userPic);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

@@ -204,7 +204,7 @@ public class FirebaseRequests {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(mAuth.getCurrentUser() == null){
-              //      mContext.startActivity(new Intent(perfilFragment.getContext(), LoginActivity.class));
+               perfilFragment.getActivity().startActivity(new Intent(perfilFragment.getActivity(), LoginActivity.class));
                 }
             }
         };
@@ -224,7 +224,7 @@ public class FirebaseRequests {
 
                     String id = build.getKey();
                     String nome = build.child("buildName").getValue(String.class);
-                    Log.d("aaa", "bbb:" + build.child("listaItemsBuild").getValue(typeListItem));
+                    //Log.d("aaa", "bbb:" + build.child("listaItemsBuild").getValue(typeListItem));
                     List<Item> listaItemsBuild = build.child("listaItemsBuild").getValue(typeListItem);
 
                     BuildCompleta buildCompleta = new BuildCompleta(listaItemsBuild, nome);
