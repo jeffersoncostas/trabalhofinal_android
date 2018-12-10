@@ -177,28 +177,7 @@ public class MainActivity extends AppCompatActivity {
         final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
 
         popupWindow.setElevation(5);
-
-        // show the popup window
-        // which view you pass in doesn't matter, it is only used for the window tolken
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, -90);
-
-      /*  popupWindow.setTouchInterceptor(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Log.d("oii", "aaa");
-
-                if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
-                    popupWindow.dismiss();
-                    clearDim(root);
-                    return true;
-                }
-                return false;
-            }
-        });*/
-
-        // dismiss the popup
-
-
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -234,24 +213,7 @@ public class MainActivity extends AppCompatActivity {
 
         popupWindow.setElevation(5);
 
-        // show the popup window
-        // which view you pass in doesn't matter, it is only used for the window tolken
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, -90);
-
-      /*  popupWindow.setTouchInterceptor(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Log.d("oii", "aaa");
-
-                if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
-                    popupWindow.dismiss();
-                    clearDim(root);
-                    return true;
-                }
-                return false;
-            }
-        });*/
-
         btnAdd.setOnClickListener(new View.OnClickListener() {
 
             @Override
