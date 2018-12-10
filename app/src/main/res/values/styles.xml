@@ -39,5 +39,20 @@
         <item name="colorControlActivated">@color/gradEnd</item>
     </style>
 
+    <!-- Toast -->
+
+    <style name="mytoast">
+        <item name="stTextBold">true</item>
+        <item name="stTextColor">@color/colorPrimary</item>
+        <item name="stFont">@font/hkgrotesk</item>
+        <item name="stTextSize">14sp</item>
+        <item name="stColorBackground">#fff</item>
+        <item name="stSolidBackground">true</item>
+        <item name="stStrokeWidth">1dp</item>
+        <item name="stStrokeColor">@color/colorPrimary</item>
+        <item name="stIconStart">@drawable/ex</item>
+        <!--<item name="stIconEnd">@drawable/ic</item>-->
+        <item name="stRadius">25dp</item>
+    </style>
 
 </resources>

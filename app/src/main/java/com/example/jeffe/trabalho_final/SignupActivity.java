@@ -3,17 +3,22 @@ package com.example.jeffe.trabalho_final;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Looper;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +30,7 @@ import android.widget.Toast;
 
 import com.example.jeffe.trabalho_final.Requests.FirebaseRequests;
 import com.example.jeffe.trabalho_final.Services.LocationService;
+import com.example.jeffe.trabalho_final.Toast.MyToast;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -38,6 +44,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.muddzdev.styleabletoast.StyleableToast;
 
 import java.io.IOException;
 import java.util.List;
@@ -47,6 +54,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
+import static java.util.logging.Logger.global;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
@@ -63,6 +71,8 @@ public class SignupActivity extends AppCompatActivity {
     TextView _loginLink;
     @InjectView(R.id.locIcon) ImageView locIcon;
     @InjectView(R.id.input_location) TextView input_location;
+
+    private SignupActivity mContext;
 
     private LocationRequest mLocationRequest;
     private FusedLocationProviderClient mFusedLocationClient;
@@ -116,6 +126,14 @@ public class SignupActivity extends AppCompatActivity {
 
     @SuppressLint("MissingPermission")
     public void getLocation() {
+
+        LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        boolean network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+        if(!gps_enabled && !network_enabled){
+            StyleableToast.makeText(getBaseContext(), "Localização não está ativada", Toast.LENGTH_LONG, R.style.mytoast).show();
+        }
 
         mLocationRequest = new LocationRequest();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
