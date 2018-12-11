@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.jeffe.trabalho_final.Build.BuildCompleta;
 import com.example.jeffe.trabalho_final.Build.BuildFragment;
@@ -26,6 +27,7 @@ import com.example.jeffe.trabalho_final.Build.Item;
 import com.example.jeffe.trabalho_final.MainActivity;
 import com.example.jeffe.trabalho_final.PerfilFragment;
 import com.example.jeffe.trabalho_final.R;
+import com.example.jeffe.trabalho_final.Requests.FirebaseRequests;
 import com.example.jeffe.trabalho_final.Usuario;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -46,6 +48,8 @@ public class AmigosFragment extends Fragment {
 
     private List<Usuario> usuarioList;
     private AmigosAdapter amigosAdapter;
+
+    private TextView userName;
     private Usuario usuario;
     public Context mContext;
 
@@ -81,6 +85,8 @@ public class AmigosFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        userName = getView().findViewById(R.id.userNameAmigos);
+
         recyclerView  = (RecyclerView) getView().findViewById(R.id.recycler_view);
         usuarioList = new ArrayList<>();
         amigosAdapter = new AmigosAdapter(this,usuarioList);
@@ -93,6 +99,8 @@ public class AmigosFragment extends Fragment {
         recyclerView.setAdapter(amigosAdapter);
 
         getUsuarios();
+
+        userName.setText("Amigos de "+FirebaseRequests.GetInstance().userName );
 
     }
 

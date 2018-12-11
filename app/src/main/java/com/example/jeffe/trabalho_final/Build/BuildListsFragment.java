@@ -91,9 +91,12 @@ public class BuildListsFragment extends Fragment {
 
 
     public void goToSpecificBuild(BuildCompleta buildCompleta){
-        Fragment buildFragment = BuildFragment.newInstance();
-        ((BuildFragment) buildFragment).initializeWithBuild(buildCompleta);
-        mainActivity.openFragment(buildFragment);
+        Fragment editBuildFragment = EditBuildFragment.newInstance();
+
+        Log.d("aa","merda");
+        ((EditBuildFragment) editBuildFragment).buildCompleta = buildCompleta;
+
+        mainActivity.openFragment(editBuildFragment);
     }
 
 }

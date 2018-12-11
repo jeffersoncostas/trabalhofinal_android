@@ -12,14 +12,15 @@
         android:padding="22dp">
 
         <TextView
+            android:id="@+id/titlePopUpBuild"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_marginBottom="30dp"
-            android:layout_marginEnd="30dp"
             android:layout_marginStart="30dp"
             android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="30dp"
             android:text="Nomeie sua build"
             android:textAlignment="center"
             android:textSize="22sp" />

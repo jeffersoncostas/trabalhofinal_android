@@ -20,7 +20,9 @@ import java.util.List;
 
 public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder> {
 
-    private BuildFragment mContext;
+    private BuildFragment mContext = null;
+    private EditBuildFragment mContextEdit = null;
+
     private List<Item> itemList;
 
     private Context mContextGeneric;
@@ -32,6 +34,11 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
 
     public ItensAdapter(BuildFragment mContext, List<Item> itemList) {
         this.mContext = mContext;
+        this.itemList = itemList;
+    }
+
+    public ItensAdapter(EditBuildFragment mContext, List<Item> itemList) {
+        this.mContextEdit = mContext;
         this.itemList = itemList;
     }
 
@@ -87,16 +94,37 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.MyViewHolder
     }
 
     public void removeItemFromBuild(Item item){
-        Item nItem = item;
-        item.setUsing(false);
-        nItem.setUsing(false);
-        mContext.removeItemFromBuild(item);
+
+        if(mContext !=null){
+            Item nItem = item;
+            item.setUsing(false);
+            nItem.setUsing(false);
+            mContext.removeItemFromBuild(item);
+        }
+        if(mContextEdit !=null){
+            Item nItem = item;
+            item.setUsing(false);
+            nItem.setUsing(false);
+            mContextEdit.removeItemFromBuild(item);
+        }
+
 
     }
     public void sendItemToBuild(View view, Item item){
-        Item nItem = item;
-        item.setUsing(true);
-        nItem.setUsing(true);
-        mContext.sendItemToBuild(item);
+
+        if(mContext != null){
+            Item nItem = item;
+            item.setUsing(true);
+            nItem.setUsing(true);
+            mContext.sendItemToBuild(item);
+        }
+
+        if(mContextEdit !=null){
+            Item nItem = item;
+            item.setUsing(true);
+            nItem.setUsing(true);
+            mContextEdit.sendItemToBuild(item);
+        }
+
     }
 }

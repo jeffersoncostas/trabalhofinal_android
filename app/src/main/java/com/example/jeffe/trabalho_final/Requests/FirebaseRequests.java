@@ -34,6 +34,8 @@ import java.util.List;
 
 public class FirebaseRequests {
 
+    public String userName;
+
     static FirebaseRequests uniqueInstance = null;
 
     FirebaseAuth mAuth;
@@ -182,6 +184,10 @@ public class FirebaseRequests {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 perfilFragment.getProfileData(dataSnapshot);
+                userName= dataSnapshot.child("userName").getValue(String.class);
+
+
+
             }
 
             @Override
@@ -262,6 +268,16 @@ public class FirebaseRequests {
 
 
 
+            }
+        });
+    }
+
+    public void EditBuild( BuildCompleta newBuild){
+        currentUserDatabase.child("userBuild").child(newBuild.getBuildId()).setValue(newBuild).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+                Log.d("deu certo", " amore");
             }
         });
     }

@@ -3,6 +3,7 @@ package com.example.jeffe.trabalho_final.Requests;
 import android.util.Log;
 
 import com.example.jeffe.trabalho_final.Build.BuildFragment;
+import com.example.jeffe.trabalho_final.Build.EditBuildFragment;
 import com.example.jeffe.trabalho_final.Build.Item;
 import com.example.jeffe.trabalho_final.Noticias.Noticia;
 import com.example.jeffe.trabalho_final.Noticias.NoticiasFragment;
@@ -71,6 +72,30 @@ public class HttpRequests {
     }
 
     public void getItems(BuildFragment buildFragment){
+        ApiInterface apiService = HttpRequests.getClient().create(ApiInterface.class);
+
+        Call<List<Item>> call = apiService.getItems();
+        call.enqueue(new Callback<List<Item>>() {
+            @Override
+            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+                List<Item> itens = response.body();
+
+                buildFragment.itemList.clear();
+
+                itens.forEach((item -> {
+
+                    buildFragment.itemList.add(item);
+                    buildFragment.itensAdapter.notifyDataSetChanged();
+                }));
+            }
+
+            @Override
+            public void onFailure(Call<List<Item>> call, Throwable t) {
+
+            }
+        });
+    }
+    public void getItems(EditBuildFragment buildFragment){
         ApiInterface apiService = HttpRequests.getClient().create(ApiInterface.class);
 
         Call<List<Item>> call = apiService.getItems();

@@ -34,11 +34,14 @@ import android.widget.Toast;
 import com.example.jeffe.trabalho_final.Amigos.AmigosAdapter;
 import com.example.jeffe.trabalho_final.Amigos.AmigosFragment;
 import com.example.jeffe.trabalho_final.Broadcasts.BroadcastInternet;
+import com.example.jeffe.trabalho_final.Build.BuildCompleta;
 import com.example.jeffe.trabalho_final.Build.BuildFragment;
 import com.example.jeffe.trabalho_final.Build.BuildListsFragment;
+import com.example.jeffe.trabalho_final.Build.EditBuildFragment;
 import com.example.jeffe.trabalho_final.Build.Item;
 import com.example.jeffe.trabalho_final.Build.MyBuilds;
 import com.example.jeffe.trabalho_final.Noticias.NoticiasFragment;
+import com.example.jeffe.trabalho_final.Requests.FirebaseRequests;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -105,7 +108,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mContext = this;
 
-
+        BuildListsFragment.newInstance(mContext);
+        EditBuildFragment.newInstance();
         auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
             Log.d("logado", "user: " + auth.getUid());
@@ -157,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickFloatButton(View view){
+
         // inflate the layout of the popup window
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.popup_newbuild, null);
@@ -165,6 +170,11 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnSalvar = popupView.findViewById(R.id.bttn_salvarbuild);
         final EditText inputPopup = popupView.findViewById(R.id.buildNameInput);
+        final TextView titulo = popupView.findViewById(R.id.titlePopUpBuild);
+
+        if(EditBuildFragment.newInstance().onEditBuild){
+            titulo.setText("Renomeie esta build");
+        }
 
         final ViewGroup root = (ViewGroup) getWindow().getDecorView().getRootView();
 
@@ -181,8 +191,17 @@ public class MainActivity extends AppCompatActivity {
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<Item> novaBuild = BuildFragment.newInstance().buildList;
-                MyBuilds.getInstance().enviarNovaBuild(novaBuild,inputPopup.getText().toString());
+
+                if(EditBuildFragment.newInstance().onEditBuild){
+                    BuildCompleta buildEditada = new BuildCompleta(EditBuildFragment.newInstance().buildList,inputPopup.getText().toString());
+                    buildEditada.setBuildId(EditBuildFragment.newInstance().buildCompleta.getBuildId());
+                    FirebaseRequests.GetInstance().EditBuild(buildEditada);
+                }
+                else{
+                    List<Item> novaBuild = BuildFragment.newInstance().buildList;
+                    MyBuilds.getInstance().enviarNovaBuild(novaBuild,inputPopup.getText().toString());
+                }
+
 
                 popupWindow.dismiss();
                 clearDim(root);
