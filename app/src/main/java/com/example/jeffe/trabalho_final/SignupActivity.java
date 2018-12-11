@@ -75,6 +75,7 @@ public class SignupActivity extends AppCompatActivity {
     TextView _inputLocation;
 
     private SignupActivity mContext;
+    public boolean permis;
     private LocationRequest mLocationRequest;
 
     @Override
@@ -113,46 +114,70 @@ public class SignupActivity extends AppCompatActivity {
         switch (requestCode) {
             case 2:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    permis = true;
                 } else {
+                    permis = false;
                     StyleableToast.makeText(getBaseContext(), "Precisamos da sua permissão de localização!", Toast.LENGTH_LONG, R.style.myToastError).show();
                 }
                 break;
         }
     }
 
-    @SuppressLint("MissingPermission")
-    public void getLocation() {
+    public boolean checkPermissions() {
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,  Manifest.permission.ACCESS_FINE_LOCATION},
                 2);
 
-        LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        boolean gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        boolean network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        String requiredPermission = "android.permission.ACCESS_COARSE_LOCATION";
+        String requiredPermission2 = "android.permission.ACCESS_FINE_LOCATION";
+        int checkVal = getBaseContext().checkCallingOrSelfPermission(requiredPermission);
+        int checkVal2 = getBaseContext().checkCallingOrSelfPermission(requiredPermission2);
 
-        if(!gps_enabled && !network_enabled){
-            StyleableToast.makeText(getBaseContext(), "Localização não está ativada", Toast.LENGTH_LONG, R.style.myToastError).show();
+        Log.d("aa", "bbb:" + permis);
+
+        if (checkVal == PackageManager.PERMISSION_GRANTED && checkVal2 == PackageManager.PERMISSION_GRANTED){
+            permis = true;
+            return true;
+        } else  {
+            return false;
         }
+    }
 
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    @SuppressLint("MissingPermission")
+    public void getLocation() {
+        if (checkPermissions()) {
 
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
-        builder.addLocationRequest(mLocationRequest);
-        LocationSettingsRequest locationSettingsRequest = builder.build();
+            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            boolean gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            boolean network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-        SettingsClient settingsClient = LocationServices.getSettingsClient(this);
-        settingsClient.checkLocationSettings(locationSettingsRequest);
+            if (!gps_enabled && !network_enabled) {
+                StyleableToast.makeText(getBaseContext(), "Localização não está ativada", Toast.LENGTH_LONG, R.style.myToastError).show();
+            }
 
-        getFusedLocationProviderClient(this).requestLocationUpdates(mLocationRequest, new LocationCallback() {
-                    @Override
-                    public void onLocationResult(LocationResult locationResult) {
-                        try {
-                            onLocationChanged(locationResult.getLastLocation());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+            mLocationRequest = new LocationRequest();
+            mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+            LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+            builder.addLocationRequest(mLocationRequest);
+            LocationSettingsRequest locationSettingsRequest = builder.build();
+
+            SettingsClient settingsClient = LocationServices.getSettingsClient(this);
+            settingsClient.checkLocationSettings(locationSettingsRequest);
+
+            getFusedLocationProviderClient(this).requestLocationUpdates(mLocationRequest, new LocationCallback() {
+                @Override
+                public void onLocationResult(LocationResult locationResult) {
+                    try {
+                        onLocationChanged(locationResult.getLastLocation());
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                }, Looper.myLooper());
+                }
+            }, Looper.myLooper());
+        } else {
+            StyleableToast.makeText(getBaseContext(), "Você não concedeu as permissões necessárias", Toast.LENGTH_LONG, R.style.myToastError).show();
+
+        }
     }
 
     public void onLocationChanged(Location location) throws IOException {
