@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jeffe.trabalho_final.Requests.FirebaseRequests;
+import com.muddzdev.styleabletoast.StyleableToast;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -35,7 +36,6 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.inject(this);
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 login();
@@ -43,10 +43,8 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         _signupLink.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-             //  Start the Signup activity
                  Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
                  startActivityForResult(intent, REQUEST_SIGNUP);
             }
@@ -54,20 +52,20 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login() {
-
-
         _loginButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Autenticando...");
+        progressDialog.setMessage("Realizando autenticação...");
         progressDialog.show();
 
-        final String email = _emailText.getText().toString();
-        final String password = _passwordText.getText().toString();
-
-        FirebaseRequests.GetInstance().Login(email,password,this);
-
+        if (!validate()) {
+            onLoginFailed(progressDialog);
+        } else {
+            final String email = _emailText.getText().toString();
+            final String password = _passwordText.getText().toString();
+            FirebaseRequests.GetInstance().Login(email, password, this, progressDialog);
+        }
     }
 
 
@@ -75,8 +73,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SIGNUP) {
             if (resultCode == RESULT_OK) {
-
-
                 this.finish();
             }
         }
@@ -90,14 +86,13 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginSuccess() {
         _loginButton.setEnabled(true);
-        Log.d(TAG, "onLoginSuccess: DEU SUCESSO");
+        StyleableToast.makeText(getBaseContext(), "Autenticado com sucesso", Toast.LENGTH_LONG, R.style.myToastRight).show();
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
-
     }
 
     public void onLoginFailed(ProgressDialog progressDialog) {
-        Toast.makeText(getBaseContext(), "Login falhou :(", Toast.LENGTH_LONG).show();
+        StyleableToast.makeText(getBaseContext(), "Erro na autenticação", Toast.LENGTH_LONG, R.style.myToastError).show();
         progressDialog.dismiss();
         _loginButton.setEnabled(true);
     }

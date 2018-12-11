@@ -70,22 +70,15 @@ public class FirebaseRequests {
 
 
 
-    public void Login(String email, String password, final LoginActivity loginActivity){
-
-        final ProgressDialog progressDialog = new ProgressDialog(loginActivity);
+    public void Login(String email, String password, final LoginActivity loginActivity, ProgressDialog progressDialog){
 
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(loginActivity, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
-
                     loginActivity.onLoginSuccess();
-                }
-
-                else{
-
+                } else {
                     loginActivity.onLoginFailed(progressDialog);
-
                 }
 
             }
@@ -93,21 +86,19 @@ public class FirebaseRequests {
 
     }
 
-    public void CreateAccount(final String name, final String email, String password, final String location, final SignupActivity signupActivity){
+    public void CreateAccount(final String name, final String email, String password, final String location, final SignupActivity signupActivity, ProgressDialog processDialog){
         mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(signupActivity, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
+                if(task.isSuccessful()) {
 
                     String id = databaseUsers.push().getKey();
                     currentUser = mAuth.getCurrentUser();
-                    Usuario user = new Usuario(id,name,email,location);
+                    Usuario user = new Usuario(id, name, email, location);
                     databaseUsers.child(currentUser.getUid()).setValue(user);
-
                     signupActivity.onSignupSuccess();
-                }
-                else{
-                    signupActivity.onSignupFailed(task);
+                } else {
+                    signupActivity.onSignupFailed(processDialog);
                 }
 
             }

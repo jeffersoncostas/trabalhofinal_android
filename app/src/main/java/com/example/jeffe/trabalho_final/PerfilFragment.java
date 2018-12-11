@@ -46,6 +46,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.muddzdev.styleabletoast.StyleableToast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -67,44 +68,36 @@ public class PerfilFragment extends Fragment {
     public ImageView userPic;
     public Context mContext;
     private Uri picUri;
-
     public boolean isInitializedFriend = false;
     public Usuario user;
-
     private static PerfilFragment uniqueInstance = null;
-
     private static PerfilFragment pF;
-
     public static MainActivity mainActivity;
+    public boolean cameraActive;
+    final int REQUEST_IMAGE_CAPTURE = 1;
+    final int PIC_CROP = 2;
+    Uri fileUri;
+    String photoPath = "";
 
     public PerfilFragment() {
         isInitializedFriend = false;
     }
 
-    final int MY_PERMISSIONS_REQUEST_READ_MEDIA = 55;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        ActivityCompat.requestPermissions(mainActivity,
-                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
-
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case 1: {
-                // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
+                    cameraActive = true;
                 } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                    Toast.makeText(mainActivity, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show();
+                    cameraActive = false;
+                    StyleableToast.makeText(mainActivity, "Permissão para usar a câmera foi negada.", Toast.LENGTH_LONG, R.style.myToastError).show();
                 }
                 return;
             }
@@ -116,14 +109,11 @@ public class PerfilFragment extends Fragment {
         super.onStart();
     }
 
-    // TODO: Rename and change types and number of parameters
     public static PerfilFragment newInstance(MainActivity mActivity) {
-
         if(uniqueInstance == null){
             mainActivity = mActivity;
             uniqueInstance = new PerfilFragment();
         }
-
         return uniqueInstance;
     }
 
@@ -140,7 +130,6 @@ public class PerfilFragment extends Fragment {
         outState.putParcelable("picUri", picUri);
     }
 
-    // Recover the saved state when the activity is recreated.
     @Override
     public void onViewStateRestored(@NonNull Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
@@ -151,49 +140,40 @@ public class PerfilFragment extends Fragment {
 
     }
 
-    final int REQUEST_IMAGE_CAPTURE = 1;
-    static final int REQUEST_TAKE_PHOTO = 1;
-    final int PIC_CROP = 2;
-    Uri fileUri;
-    String photoPath = "";
+    public void dispatchTakePictureIntent() {
+        ActivityCompat.requestPermissions(mainActivity,
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA},1);
 
-    private static File getOutputMediaFile(){
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "CameraDemo");
+        String requiredPermission = "android.permission.CAMERA";
+        String requiredPermission2 = "android.permission.READ_EXTERNAL_STORAGE";
+        int checkVal = getContext().checkCallingOrSelfPermission(requiredPermission);
+        int checkVal2 = getContext().checkCallingOrSelfPermission(requiredPermission2);
 
-        if (!mediaStorageDir.exists()){
-            if (!mediaStorageDir.mkdirs()){
-                return null;
-            }
+        if (checkVal == PackageManager.PERMISSION_GRANTED && checkVal2 == PackageManager.PERMISSION_GRANTED){
+            cameraActive = true;
         }
 
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        return new File(mediaStorageDir.getPath() + File.separator +
-                "IMG_"+ timeStamp + ".jpg");
-    }
+        if (cameraActive == true) {
+            Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-    public void dispatchTakePictureIntent() {
+            try {
+                if (takePhotoIntent.resolveActivity(mainActivity.getPackageManager()) != null) {
 
-        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    String fileName = System.currentTimeMillis() + ".jpg";
+                    ContentValues values = new ContentValues();
+                    values.put(MediaStore.Images.Media.TITLE, fileName);
 
-        try {
-            if (takePhotoIntent.resolveActivity(mainActivity.getPackageManager()) != null) {
+                    fileUri = mainActivity.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
-                String fileName = System.currentTimeMillis()+".jpg";
-                ContentValues values = new ContentValues();
-                values.put(MediaStore.Images.Media.TITLE, fileName);
-              //  fileUri = Uri.fromFile(getOutputMediaFile());
-
-                fileUri = mainActivity.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-
-                takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-                startActivityForResult(takePhotoIntent, REQUEST_IMAGE_CAPTURE);
+                    takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+                    startActivityForResult(takePhotoIntent, REQUEST_IMAGE_CAPTURE);
+                }
+            } catch (ActivityNotFoundException anfe) {
+                //display an error message
+                String errorMessage = "Whoops - your device doesn't support capturing images!";
+                Toast toast = Toast.makeText(mainActivity, errorMessage, Toast.LENGTH_SHORT);
+                toast.show();
             }
-        } catch (ActivityNotFoundException anfe){
-            //display an error message
-            String errorMessage = "Whoops - your device doesn't support capturing images!";
-            Toast toast = Toast.makeText(mainActivity, errorMessage, Toast.LENGTH_SHORT);
-            toast.show();
         }
     }
 
@@ -248,12 +228,10 @@ public class PerfilFragment extends Fragment {
 
         if (requestCode == REQUEST_IMAGE_CAPTURE) {
             if (resultCode == RESULT_OK) {
-
                 photoPath = getPath(fileUri);
-
                 System.out.println("Image Path : " + photoPath);
-
                 Bitmap b = null;
+
                 try {
                     b = decodeUri(fileUri);
                     Log.d("porra", "aff:" + b);
@@ -263,12 +241,9 @@ public class PerfilFragment extends Fragment {
                 }
 
                 userPic.setImageBitmap(getCircularBitmap(b));
-
             }
 
-        } else if(requestCode == PIC_CROP){
-
-        }
+        } else if(requestCode == PIC_CROP){ }
     }
 
     public static Bitmap getCircularBitmap(Bitmap bitmap) {
@@ -343,7 +318,7 @@ public class PerfilFragment extends Fragment {
         });
     }
 
-        public void getProfileData(DataSnapshot dataSnapshot){
+    public void getProfileData(DataSnapshot dataSnapshot){
             String userNameValue = dataSnapshot.child("userName").getValue(String.class);
             String userLocValue = dataSnapshot.child("userLocalization").getValue(String.class);
             String userDescriptionValue = dataSnapshot.child("userDescription").getValue(String.class);

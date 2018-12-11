@@ -41,7 +41,7 @@
 
     <!-- Toast -->
 
-    <style name="mytoast">
+    <style name="myToastError">
         <item name="stTextBold">true</item>
         <item name="stTextColor">@color/colorPrimary</item>
         <item name="stFont">@font/hkgrotesk</item>
@@ -51,7 +51,19 @@
         <item name="stStrokeWidth">1dp</item>
         <item name="stStrokeColor">@color/colorPrimary</item>
         <item name="stIconStart">@drawable/ex</item>
-        <!--<item name="stIconEnd">@drawable/ic</item>-->
+        <item name="stRadius">25dp</item>
+    </style>
+
+    <style name="myToastRight">
+        <item name="stTextBold">true</item>
+        <item name="stTextColor">@color/colorPrimary</item>
+        <item name="stFont">@font/hkgrotesk</item>
+        <item name="stTextSize">14sp</item>
+        <item name="stColorBackground">#fff</item>
+        <item name="stSolidBackground">true</item>
+        <item name="stStrokeWidth">1dp</item>
+        <item name="stStrokeColor">@color/colorPrimary</item>
+        <item name="stIconStart">@drawable/check</item>
         <item name="stRadius">25dp</item>
     </style>
 

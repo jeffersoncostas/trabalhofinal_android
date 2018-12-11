@@ -69,13 +69,13 @@ public class SignupActivity extends AppCompatActivity {
     Button _signupButton;
     @InjectView(R.id.link_login)
     TextView _loginLink;
-    @InjectView(R.id.locIcon) ImageView locIcon;
-    @InjectView(R.id.input_location) TextView input_location;
+    @InjectView(R.id.locIcon)
+    ImageView locIcon;
+    @InjectView(R.id.input_location)
+    TextView _inputLocation;
 
     private SignupActivity mContext;
-
     private LocationRequest mLocationRequest;
-    private FusedLocationProviderClient mFusedLocationClient;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -106,9 +106,6 @@ public class SignupActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,  Manifest.permission.ACCESS_FINE_LOCATION},
-                2);
     }
 
     @Override
@@ -116,9 +113,8 @@ public class SignupActivity extends AppCompatActivity {
         switch (requestCode) {
             case 2:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // All good!
                 } else {
-                    Toast.makeText(this, "Precisamos da sua permissão de localização!", Toast.LENGTH_SHORT).show();
+                    StyleableToast.makeText(getBaseContext(), "Precisamos da sua permissão de localização!", Toast.LENGTH_LONG, R.style.myToastError).show();
                 }
                 break;
         }
@@ -126,13 +122,15 @@ public class SignupActivity extends AppCompatActivity {
 
     @SuppressLint("MissingPermission")
     public void getLocation() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,  Manifest.permission.ACCESS_FINE_LOCATION},
+                2);
 
         LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         boolean gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
         boolean network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
         if(!gps_enabled && !network_enabled){
-            StyleableToast.makeText(getBaseContext(), "Localização não está ativada", Toast.LENGTH_LONG, R.style.mytoast).show();
+            StyleableToast.makeText(getBaseContext(), "Localização não está ativada", Toast.LENGTH_LONG, R.style.myToastError).show();
         }
 
         mLocationRequest = new LocationRequest();
@@ -148,7 +146,6 @@ public class SignupActivity extends AppCompatActivity {
         getFusedLocationProviderClient(this).requestLocationUpdates(mLocationRequest, new LocationCallback() {
                     @Override
                     public void onLocationResult(LocationResult locationResult) {
-                        // do work here
                         try {
                             onLocationChanged(locationResult.getLastLocation());
                         } catch (IOException e) {
@@ -167,43 +164,40 @@ public class SignupActivity extends AppCompatActivity {
         geocoder = new Geocoder(this, Locale.getDefault());
         addresses = geocoder.getFromLocation(latitude, longitude, 1);
         String address = addresses.get(0).getAddressLine(0);
-        input_location.setText(address);
+        _inputLocation.setText(address);
     }
 
     public void signup() {
-        Log.d(TAG, "Signup");
         _signupButton.setEnabled(false);
-
-        final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
-                R.style.AppTheme_Dark_Dialog);
+        final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Criando conta...");
         progressDialog.show();
 
-        final String name = _nameText.getText().toString();
-        final String email = _emailText.getText().toString();
-        final String password = _passwordText.getText().toString();
-        final String location = "loc";
-
-        FirebaseRequests.GetInstance().CreateAccount(name,email,password,location,this);
-
+        if (!validate()) {
+            onSignupFailed(progressDialog);
+        } else {
+            final String name = _nameText.getText().toString();
+            final String email = _emailText.getText().toString();
+            final String password = _passwordText.getText().toString();
+            final String location = _inputLocation.getText().toString();
+            FirebaseRequests.GetInstance().CreateAccount(name, email, password, location, this, progressDialog);
+        }
     }
-
 
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
+        StyleableToast.makeText(getBaseContext(), "Conta criada com sucesso!", Toast.LENGTH_LONG, R.style.myToastRight).show();
         setResult(RESULT_OK, null);
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivityForResult(intent, 0);
         finish();
     }
 
-    public void onSignupFailed(Task task) {
-        Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
-                Toast.LENGTH_SHORT).show();
-        Toast.makeText(getBaseContext(), "Failed", Toast.LENGTH_LONG).show();
-
+    public void onSignupFailed(ProgressDialog progressDialog) {
+        StyleableToast.makeText(getBaseContext(), "Houve um erro na criação da conta", Toast.LENGTH_LONG, R.style.myToastError).show();
         _signupButton.setEnabled(true);
+        progressDialog.dismiss();
     }
 
     public boolean validate() {
@@ -212,6 +206,7 @@ public class SignupActivity extends AppCompatActivity {
         String name = _nameText.getText().toString();
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
+        String loc = _inputLocation.getText().toString();
 
         if (name.isEmpty() || name.length() < 3) {
             _nameText.setError("Coloque, no mínimo, 3 caracteres");
@@ -228,12 +223,18 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("Entre 4 e 10 caracteres");
+            _passwordText.setError("Digite entre 4 e 10 caracteres");
             valid = false;
         } else {
             _passwordText.setError(null);
         }
 
+        if (loc.isEmpty()) {
+            _inputLocation.setError("Sua localização é necessária");
+            valid = false;
+        } else {
+            _inputLocation.setError(null);
+        }
         return valid;
     }
 }
