@@ -30,35 +30,23 @@ public class MyBuilds {
     }
 
     private MyBuilds() {
-        Log.d("createdMyBuilds","xxxx");
         listaDeBuilds = new ArrayList<>();
     }
 
     public void enviarNovaBuild(List<Item> nBuild,String buildname){
-        Log.d("enviandoNovaBuild","xds");
         final BuildCompleta novaBuild = new BuildCompleta(nBuild, buildname);
-
         FirebaseRequests.GetInstance().CreateBuild(novaBuild);
-
-
-
     }
 
     public void getBuilds(BuildListsFragment buildListsFragment){
-        Log.d("getbuild",":::::::" + listaDeBuilds);
-
             FirebaseRequests.GetInstance().GetUserBuilds(buildListsFragment);
-
-
     }
 
     public void deleteBuild(BuildCompleta item, BuildListsFragment buildListsFragment) {
         FirebaseRequests.GetInstance().DeleteBuild(item, buildListsFragment);
-
     }
 
     public int getBuildsSize(){
-
         return listaDeBuilds.size();
     }
 

@@ -40,17 +40,13 @@ public class EditBuildFragment extends Fragment {
     public List<Item> itemList;
     public ItensAdapter itensAdapter;
 
-
-
-
     public EditBuildFragment() {
         // Required empty public constructor
     }
 
-
     // TODO: Rename and change types and number of parameters
     public static EditBuildFragment newInstance(BuildFragment _buildFragment) {
-        if(uniqueInstance == null ){
+        if(uniqueInstance == null){
             uniqueInstance = new EditBuildFragment();
 
         }
@@ -61,7 +57,6 @@ public class EditBuildFragment extends Fragment {
 
         if(uniqueInstance == null ){
             uniqueInstance = new EditBuildFragment();
-
         }
         return uniqueInstance;
     }
@@ -75,7 +70,6 @@ public class EditBuildFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_build, container, false);
     }
 

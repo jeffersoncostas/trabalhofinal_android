@@ -21,8 +21,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.jeffe.trabalho_final.AmigoPerfilFragment;
 import com.example.jeffe.trabalho_final.Build.BuildCompleta;
 import com.example.jeffe.trabalho_final.Build.BuildFragment;
+import com.example.jeffe.trabalho_final.Build.EditBuildFragment;
 import com.example.jeffe.trabalho_final.Build.Item;
 import com.example.jeffe.trabalho_final.MainActivity;
 import com.example.jeffe.trabalho_final.PerfilFragment;
@@ -40,19 +42,20 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.jeffe.trabalho_final.PerfilFragment.mainActivity;
 
 public class AmigosFragment extends Fragment {
-
+    public static  MainActivity mainActivity;
     private RecyclerView recyclerView;
+    public static PerfilFragment perfilFragment;
 
     private List<Usuario> usuarioList;
-    private AmigosAdapter amigosAdapter;
+    public AmigosAdapter amigosAdapter;
 
     private TextView userName;
     private Usuario usuario;
-    public Context mContext;
+    public AmigosFragment mContext;
 
+    public static AmigosFragment uniqueInstance = null;
 
 
     FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -64,10 +67,21 @@ public class AmigosFragment extends Fragment {
 
     }
 
+    public static AmigosFragment newInstance(MainActivity mActivity) {
+        mainActivity = mActivity;
+        if(uniqueInstance == null ){
+            uniqueInstance = new AmigosFragment();
+        }
+
+        return uniqueInstance;
+    }
     public static AmigosFragment newInstance() {
 
-        AmigosFragment fragment = new AmigosFragment();
-        return fragment;
+        if(uniqueInstance == null ){
+            uniqueInstance = new AmigosFragment();
+        }
+
+        return uniqueInstance;
     }
 
     @Override
@@ -84,7 +98,7 @@ public class AmigosFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+    mContext = this;
         userName = getView().findViewById(R.id.userNameAmigos);
 
         recyclerView  = (RecyclerView) getView().findViewById(R.id.recycler_view);
@@ -110,6 +124,7 @@ public class AmigosFragment extends Fragment {
 
             @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
+                    usuarioList.clear();
                     for (DataSnapshot snapshot : dataSnapshot.child("userFriendList").getChildren()) {
 
                         DatabaseReference friend = databaseFriends.child(snapshot.getValue().toString());
@@ -118,6 +133,7 @@ public class AmigosFragment extends Fragment {
 
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
+
                                  Usuario u = new Usuario(
                                          dataSnapshot.child("userId").getValue().toString(),
                                          dataSnapshot.child("userName").getValue().toString(),
@@ -140,14 +156,6 @@ public class AmigosFragment extends Fragment {
             }
 
         });
-
-   /*     Log.d("lista:", "aaaaaaaaa: " + usuarioList);
-
-        amigosAdapter.notifyDataSetChanged(); */
-
-   /*     u = new Usuario("2","Cranga","Eu gostaria de fazer umas coisas", "frango");
-        usuarioList.add(u);
-        amigosAdapter.notifyDataSetChanged(); */
     }
 
 
@@ -192,8 +200,15 @@ public class AmigosFragment extends Fragment {
     }
 
     public void goToFriend(Usuario usuario){
-//        Fragment perfilFragment = PerfilFragment.newInstance();
-//        ((PerfilFragment) perfilFragment).initializeWithFriend(usuario);
-//        mainActivity.openFragment(perfilFragment);
+        Fragment amigoPerfilFragment = AmigoPerfilFragment.newInstance(perfilFragment, mainActivity);
+
+        ((AmigoPerfilFragment) amigoPerfilFragment).usuario = usuario;
+
+        mainActivity.openFragment(amigoPerfilFragment);
+    }
+
+    public void deleteFriend(Usuario usuario){
+
+        FirebaseRequests.GetInstance().DeleteAmigo(usuario,mContext);
     }
 }

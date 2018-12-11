@@ -8,6 +8,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.jeffe.trabalho_final.Amigos.AmigosFragment;
 import com.example.jeffe.trabalho_final.Build.BuildCompleta;
 import com.example.jeffe.trabalho_final.Build.BuildListsFragment;
 import com.example.jeffe.trabalho_final.Build.Item;
@@ -66,14 +67,10 @@ public class FirebaseRequests {
 
         if(currentUser != null){
             currentUserDatabase = databaseUsers.child(currentUser.getUid());
-
         }
     }
 
-
-
     public void Login(String email, String password, final LoginActivity loginActivity, ProgressDialog progressDialog){
-
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(loginActivity, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -82,10 +79,8 @@ public class FirebaseRequests {
                 } else {
                     loginActivity.onLoginFailed(progressDialog);
                 }
-
             }
         });
-
     }
 
     public void CreateAccount(final String name, final String email, String password, final String location, final SignupActivity signupActivity, ProgressDialog processDialog){
@@ -137,9 +132,6 @@ public class FirebaseRequests {
 
                     Log.d("Lista builds","buildListFragment " + buildListsFragment.listaDeBuilds.get(0).getListaItemsBuild().get(0).getDeviceName());
                 }
-
-
-
             }
 
             @Override
@@ -179,21 +171,39 @@ public class FirebaseRequests {
 
     }
 
-    public void GetUserProfile(final PerfilFragment perfilFragment){
+    public void GetUserProfile(final PerfilFragment perfilFragment, ProgressDialog progressDialog){
         currentUserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 perfilFragment.getProfileData(dataSnapshot);
-                userName= dataSnapshot.child("userName").getValue(String.class);
+                userName = dataSnapshot.child("userName").getValue(String.class);
 
-
-
+                progressDialog.dismiss();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+    }
+
+    public void GetUser(final Usuario usuario, ProgressDialog progressDialog){
+        Log.d("aa", "bb: " + usuario);
+//        currentUserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//            //    perfilFragment.getProfileData(dataSnapshot);
+//                userName = dataSnapshot.child("userName").getValue(String.class);
+//
+//                progressDialog.dismiss();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//            }
+//        });
+
+        progressDialog.dismiss();
     }
 
     public void Logout(final PerfilFragment perfilFragment){
@@ -214,22 +224,26 @@ public class FirebaseRequests {
     public void getListaBuildsSize(final PerfilFragment perfilFragment){
         currentUserDatabase.child("userBuild").addValueEventListener(new ValueEventListener() {
             @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                GenericTypeIndicator<List<Item>> typeListItem = new GenericTypeIndicator<List<Item>>() {};
+//                listaDeBuilds.clear();
+//                for (DataSnapshot build : dataSnapshot.getChildren()){
+//
+//                    String id = build.getKey();
+//                    String nome = build.child("buildName").getValue(String.class);
+//                    //Log.d("aaa", "bbb:" + build.child("listaItemsBuild").getValue(typeListItem));
+//                    List<Item> listaItemsBuild = build.child("listaItemsBuild").getValue(typeListItem);
+//
+//                    BuildCompleta buildCompleta = new BuildCompleta(listaItemsBuild, nome);
+//                    buildCompleta.setBuildId(id);
+//                    listaDeBuilds.add(buildCompleta);
+//
+//                }
+//                perfilFragment.numeroBuilds.setText(Long.toString(listaDeBuilds.size()));
+//            }
+
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                GenericTypeIndicator<List<Item>> typeListItem = new GenericTypeIndicator<List<Item>>() {};
-                listaDeBuilds.clear();
-                for (DataSnapshot build : dataSnapshot.getChildren()){
-
-                    String id = build.getKey();
-                    String nome = build.child("buildName").getValue(String.class);
-                    //Log.d("aaa", "bbb:" + build.child("listaItemsBuild").getValue(typeListItem));
-                    List<Item> listaItemsBuild = build.child("listaItemsBuild").getValue(typeListItem);
-
-                    BuildCompleta buildCompleta = new BuildCompleta(listaItemsBuild, nome);
-                    buildCompleta.setBuildId(id);
-                    listaDeBuilds.add(buildCompleta);
-
-                }
-                perfilFragment.numeroBuilds.setText(Long.toString(listaDeBuilds.size()));
+                perfilFragment.numeroBuilds.setText(Long.toString(dataSnapshot.getChildrenCount()));
             }
 
             @Override
@@ -237,8 +251,6 @@ public class FirebaseRequests {
 
             }
         });
-
-
 
     }
 
@@ -248,7 +260,7 @@ public class FirebaseRequests {
             public void onSuccess(Void aVoid) {
                 Log.d("apaguei,","toda");
 
-                currentUserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                currentUserDatabase.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                          if (dataSnapshot.hasChild("userBuild") == false){
@@ -280,5 +292,31 @@ public class FirebaseRequests {
                 Log.d("deu certo", " amore");
             }
         });
+    }
+
+    public void DeleteAmigo(Usuario usuario, AmigosFragment amigosFragment){
+
+        currentUserDatabase.child("userFriendList").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+
+                    if(ds.getValue() == usuario.getUserId()){
+
+                        ds.getRef().removeValue();
+
+                        amigosFragment.getUsuarios();
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 }

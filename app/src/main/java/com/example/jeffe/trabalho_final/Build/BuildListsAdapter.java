@@ -68,7 +68,6 @@ public class BuildListsAdapter extends RecyclerView.Adapter<BuildListsAdapter.My
             public void onClick(View view) {
 
             mContext.goToSpecificBuild(item);
-                // ao clicar no card
             }
         };
 
@@ -76,13 +75,12 @@ public class BuildListsAdapter extends RecyclerView.Adapter<BuildListsAdapter.My
             @Override
             public void onClick(View view) {
                 Log.d("cliquei","no delete");
-               MyBuilds.getInstance().deleteBuild(item,mContext);
+               MyBuilds.getInstance().deleteBuild(item, mContext);
 
 
             }
         };
 
-     //   holder.itemCard.setOnClickListener(listenerCard);
         holder.title.setOnClickListener(listenerCard);
         holder.delIcon.setOnClickListener(deleteItem);
 

@@ -32,7 +32,6 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class BuildFragment extends Fragment {
-
     public TextView titleCreateBuild;
 
     private RecyclerView buildRecycler;
@@ -78,7 +77,6 @@ public class BuildFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_build, container, false);
     }
 
@@ -87,7 +85,6 @@ public class BuildFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         titleCreateBuild = getView().findViewById(R.id.titleCreateBuild);
-
         recyclerView  = (RecyclerView) getView().findViewById(R.id.recycler_view);
 
         itemList = new ArrayList<>();
@@ -101,7 +98,6 @@ public class BuildFragment extends Fragment {
         recyclerView.setAdapter(itensAdapter);
 
         getItems();
-
         initializeBuildList();
 
         if(isInitializedBuild){
@@ -111,7 +107,6 @@ public class BuildFragment extends Fragment {
     }
 
     public void initializeBuildList(){
-
         buildList = new ArrayList<>();
 
         if(isInitializedBuild){
@@ -163,18 +158,11 @@ public class BuildFragment extends Fragment {
         buildItensAdapter.notifyDataSetChanged();
     }
 
-
-    /**
-     * Converting dp to pixel
-     */
     private int dpToPx(int dp) {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 
-    /**
-     * RecyclerView item decoration - give equal margin around grid item
-     */
     public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
         private int spanCount;

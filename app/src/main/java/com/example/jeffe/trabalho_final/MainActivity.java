@@ -48,6 +48,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.muddzdev.styleabletoast.StyleableToast;
 
 import java.io.File;
 import java.io.IOException;
@@ -110,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
         BuildListsFragment.newInstance(mContext);
         EditBuildFragment.newInstance();
+        AmigosFragment.newInstance(mContext);
         auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
             Log.d("logado", "user: " + auth.getUid());
@@ -211,6 +213,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                clearDim(root);
+            }
+        });
+
     }
 
 
@@ -233,6 +242,14 @@ public class MainActivity extends AppCompatActivity {
         popupWindow.setElevation(5);
 
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, -90);
+
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                clearDim(root);
+            }
+        });
+
         btnAdd.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -243,10 +260,11 @@ public class MainActivity extends AppCompatActivity {
                 progressDialog.setMessage("Adicionando...");
                 progressDialog.show();
 
+
                 databaseUsers.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        boolean isOkay;
+
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
                             if (snapshot.child("userEmail").getValue(String.class).equals(inputPopup.getText().toString())) {
@@ -259,21 +277,13 @@ public class MainActivity extends AppCompatActivity {
                                 DatabaseReference friendListRef = userRef.child("userFriendList");
                                 friendListRef.push().setValue(snapshot.getKey());
 
-                                Toast.makeText(getBaseContext(), "Novo amigo adicionado!", Toast.LENGTH_LONG).show();
-                                isOkay = true;
+                                StyleableToast.makeText(getBaseContext(), "Amigo adicionado.", Toast.LENGTH_LONG, R.style.myToastError).show();
+
                                 progressDialog.dismiss();
+                                popupWindow.dismiss();
+
                                 break;
 
-                            } else {
-                                //amigo não existe, jogar mensagem de erro
-                                isOkay = false;
-                            }
-
-                            if (!isOkay) {
-                                Toast.makeText(getBaseContext(), "E-mail inexistente", Toast.LENGTH_LONG).show();
-                                progressDialog.dismiss();
-                            } else {
-                                amigosAdapter.notifyDataSetChanged();
                             }
                         }
                     }

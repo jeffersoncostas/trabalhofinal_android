@@ -7,6 +7,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;
 
+import com.example.jeffe.trabalho_final.R;
+import com.muddzdev.styleabletoast.StyleableToast;
+
 public class BroadcastInternet extends BroadcastReceiver {
 
 
@@ -15,11 +18,10 @@ public class BroadcastInternet extends BroadcastReceiver {
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
         if(isOnline(context)){
-            Toast.makeText(context, "Você está online",Toast.LENGTH_LONG).show();
+            StyleableToast.makeText(context, "Você está online", Toast.LENGTH_LONG, R.style.myToastRight).show();
         }
         else{
-            Toast.makeText(context, "Você está offline, algumas funcionalidades não estarão disponíveis",Toast.LENGTH_LONG).show();
-
+            StyleableToast.makeText(context, "Você está offline, algumas funcionalidades não estarão disponíveis", Toast.LENGTH_LONG, R.style.myToastError).show();
         }
     }
 

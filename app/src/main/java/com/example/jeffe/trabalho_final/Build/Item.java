@@ -16,11 +16,11 @@ public class Item {
     private String ShortDesc;
 
     @SerializedName("Price")
-    private String Price;
+    private Long Price;
     public boolean IsUsing;
 
     public Item(){}
-    public Item(String itemId, String deviceName, String itemIconurl, String shortDesc, String price, boolean isUsing) {
+    public Item(String itemId, String deviceName, String itemIconurl, String shortDesc, Long price, boolean isUsing) {
         ItemId = itemId;
         DeviceName = deviceName;
         itemIcon_url = itemIconurl;
@@ -62,11 +62,11 @@ public class Item {
         ShortDesc = shortDesc;
     }
 
-    public String getPrice() {
+    public Long getPrice() {
         return Price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Long price) {
         Price = price;
     }
 

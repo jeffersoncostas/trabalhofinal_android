@@ -176,7 +176,6 @@ public class SignupActivity extends AppCompatActivity {
             }, Looper.myLooper());
         } else {
             StyleableToast.makeText(getBaseContext(), "Você não concedeu as permissões necessárias", Toast.LENGTH_LONG, R.style.myToastError).show();
-
         }
     }
 

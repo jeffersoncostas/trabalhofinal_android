@@ -3,6 +3,7 @@ package com.example.jeffe.trabalho_final;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Context;
@@ -170,9 +171,8 @@ public class PerfilFragment extends Fragment {
                 }
             } catch (ActivityNotFoundException anfe) {
                 //display an error message
-                String errorMessage = "Whoops - your device doesn't support capturing images!";
-                Toast toast = Toast.makeText(mainActivity, errorMessage, Toast.LENGTH_SHORT);
-                toast.show();
+                String errorMessage = "Seu aparelho não tem suporte para a câmera";
+                StyleableToast.makeText(mainActivity, errorMessage, Toast.LENGTH_LONG, R.style.myToastError).show();
             }
         }
     }
@@ -289,7 +289,12 @@ public class PerfilFragment extends Fragment {
 
         final View view = inflater.inflate(R.layout.fragment_perfil, container, false);
 
-        FirebaseRequests.GetInstance().GetUserProfile(this);
+        final ProgressDialog progressDialog = new ProgressDialog(mainActivity);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Carregando perfil...");
+        progressDialog.show();
+
+        FirebaseRequests.GetInstance().GetUserProfile(this, progressDialog);
         return view;
     }
 

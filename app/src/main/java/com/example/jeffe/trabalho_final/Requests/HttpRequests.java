@@ -58,8 +58,6 @@ public class HttpRequests {
                     noticiasFragment.noticiaList.add(noticia);
                     noticiasFragment.noticiaAdapter.notifyDataSetChanged();
                 });
-
-                Log.d("deu certo", "pqp");
             }
 
             @Override
@@ -103,9 +101,7 @@ public class HttpRequests {
             @Override
             public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
                 List<Item> itens = response.body();
-
                 buildFragment.itemList.clear();
-
                 itens.forEach((item -> {
 
                     buildFragment.itemList.add(item);

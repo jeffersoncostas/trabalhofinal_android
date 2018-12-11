@@ -87,8 +87,9 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.MyViewHold
           //      MyBuilds.getInstance().deleteBuild(item);
           //      update();
 
+                mContext.deleteFriend(usuario);
                 Log.d("deletou", "deletada");
-                update();
+                //update();
             }
         };
 

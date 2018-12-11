@@ -39,7 +39,6 @@ public class BuildCompleta {
         this.buildName = buildName;
     }
 
-
     public String getBuildId() {
         return buildId;
     }
